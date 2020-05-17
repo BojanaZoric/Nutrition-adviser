@@ -17,6 +17,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<kie.version>7.17.0.Final</kie.version>
 	</properties>
 
 	<dependencies>
@@ -36,6 +37,18 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.2.7.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.20</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.kie</groupId>
@@ -48,13 +61,13 @@
 			<artifactId>kie-ci</artifactId>
 			<version>7.37.0.Final</version>
 		</dependency>
-		
+
 		<dependency>
-	  		<groupId>sbnz.projekat</groupId>
-	  		<artifactId>nutrition-adviser-drools</artifactId>
-	  		<type>jar</type>
-	  		<version>0.0.1-SNAPSHOT</version>
-  		</dependency>
+			<groupId>sbnz.projekat</groupId>
+			<artifactId>nutrition-adviser-drools</artifactId>
+			<type>jar</type>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 
