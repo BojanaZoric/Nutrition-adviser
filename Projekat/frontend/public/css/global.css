@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url(../fonts/Montserrat/Montserrat.ttf);
+}
+
+@font-face {
+    font-family: 'MontserratLight';
+    src: url(../fonts/Montserrat/Montserrat-ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: 'MontserratBold';
+    src: url(../fonts/Montserrat/Montserrat-Bold.ttf);
+}
+
+h1 {
+    font-family: "MontserratLight";
+}
+
+.monsBold {
+    font-family: 'MontserratBold';
+}
+
+.navigation {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: white;
+}
+
+body, html {
+    font-family: "Montserrat";
+}
