@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import editProfile from '@/components/account/editProfile'
 import homeContainer from '@/components/home/home-container'
 import mealsContainer from '@/components/meals/meals-container'
-
+import recepiesContainer from '@/components/recepies/recepies-container'
 
 Vue.use(Router)
 
@@ -22,6 +22,10 @@ export default new Router({
         {
             path: '/meals',
             component: mealsContainer
+        },
+        {
+            path: '/recepies',
+            component: recepiesContainer
         }
 
     ]
