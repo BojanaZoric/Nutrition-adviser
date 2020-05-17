@@ -1,11 +1,23 @@
 package sbnz.projekat.nutritionadviser.model;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Meal {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private List<GrocerieQuantity> groceries;
+
+	@OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
+	private Set<GrocerieQuantity> groceries;
 	private Double calories;
 
 	public Meal() {
@@ -32,11 +44,11 @@ public class Meal {
 		this.id = id;
 	}
 
-	public List<GrocerieQuantity> getGroceries() {
+	public Set<GrocerieQuantity> getGroceries() {
 		return groceries;
 	}
 
-	public void setGroceries(List<GrocerieQuantity> groceries) {
+	public void setGroceries(Set<GrocerieQuantity> groceries) {
 		this.groceries = groceries;
 	}
 

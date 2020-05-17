@@ -1,16 +1,34 @@
 package sbnz.projekat.nutritionadviser.model;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
 public class UserData {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private Double height;
 	private Double weight;
 	private Integer yearOfBirth;
 	private Gender gender;
 	private Double bmi;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Diet diet;
 	private Boolean diabetes;
 	private Boolean heartDisease;
 	private Boolean highBloodPresure;
+
+	@OneToOne
+	private User user;
 
 	public UserData() {
 	}
@@ -85,6 +103,22 @@ public class UserData {
 
 	public void setDiet(Diet diet) {
 		this.diet = diet;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

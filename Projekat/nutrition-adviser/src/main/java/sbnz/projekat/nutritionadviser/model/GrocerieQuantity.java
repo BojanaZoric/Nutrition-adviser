@@ -1,9 +1,25 @@
 package sbnz.projekat.nutritionadviser.model;
 
-public class GrocerieQuantity {
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+@Entity
+public class GrocerieQuantity {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Grocerie grocerie;
 	private Double quantity;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Meal meal;
 
 	public GrocerieQuantity() {
 	}
