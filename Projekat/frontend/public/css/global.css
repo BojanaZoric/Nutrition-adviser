@@ -67,3 +67,12 @@ body, html {
 .card {
     margin: 10px;
 }
+
+.meal-card {
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 15px;
+    border: 1px solid #e6e4e1;
+    margin: 10px;
+}
