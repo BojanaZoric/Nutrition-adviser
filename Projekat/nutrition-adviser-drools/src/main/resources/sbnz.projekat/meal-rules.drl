@@ -1,0 +1,10 @@
+package sbnz.projekat;
+
+import sbnz.projekat.nutritionadviser.model.Meal;
+
+rule "Calculate calories"
+	when 
+		$m: Meal()
+	then
+		System.out.println("Calculate meal calories")
+end
