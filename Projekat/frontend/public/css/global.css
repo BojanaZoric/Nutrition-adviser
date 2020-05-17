@@ -30,3 +30,60 @@ h1 {
 body, html {
     font-family: "Montserrat";
 }
+
+.header {
+    padding: 50px;
+}
+.header img{
+    width:100%;
+}
+
+.r-card {
+    padding: 10px;
+    padding: 20px;
+
+    border-bottom: 0.5px solid grey;
+}
+
+.r-card h2{
+    font-size: 25px;
+    font-family: 'MontserratLight';
+}
+
+.r-card img {
+    width: 70%;
+    padding: 10px;
+}
+
+.p-icon{
+    height: 30px;
+    width: 30px;
+}
+
+.newest{
+    margin-left: 10vw;
+}
+
+.card {
+    margin: 10px;
+}
+
+.meal-card {
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 15px;
+    border: 1px solid #e6e4e1;
+    margin: 10px;
+}
+
+.card-img-left {
+    width: 15vw;
+}
+
+.recepie-card {
+    padding: 40px;
+    margin-top: 40px;
+    border-radius: 15px;
+    border: 1px solid #e6e4e1;
+}
