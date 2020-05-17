@@ -4,6 +4,7 @@ public class Grocerie {
 
 	private Long id;
 	private Integer calories;
+	private Boolean glutenFree;
 	// dodati tipove korisnika
 
 	public Grocerie() {
@@ -23,6 +24,14 @@ public class Grocerie {
 
 	public void setCalories(Integer calories) {
 		this.calories = calories;
+	}
+
+	public Boolean getGlutenFree() {
+		return glutenFree;
+	}
+
+	public void setGlutenFree(Boolean glutenFree) {
+		this.glutenFree = glutenFree;
 	}
 
 }

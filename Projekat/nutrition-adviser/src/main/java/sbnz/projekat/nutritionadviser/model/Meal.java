@@ -11,19 +11,6 @@ public class Meal {
 	public Meal() {
 	}
 
-	public double getMealCalories() {
-		Double cals = new Double(0);
-		if (this.calories != null && this.calories.doubleValue() >= 0) {
-			cals = this.calories;
-		} else {
-			for (GrocerieQuantity gq : groceries) {
-				cals += gq.getQuantity() * gq.getGrocerie().getCalories();
-			}
-		}
-
-		return cals;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +25,14 @@ public class Meal {
 
 	public void setGroceries(List<GrocerieQuantity> groceries) {
 		this.groceries = groceries;
+	}
+
+	public Double getCalories() {
+		return calories;
+	}
+
+	public void setCalories(Double calories) {
+		this.calories = calories;
 	}
 
 }
