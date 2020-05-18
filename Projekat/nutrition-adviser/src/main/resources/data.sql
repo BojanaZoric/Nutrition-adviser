@@ -19,5 +19,6 @@ INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (2, 5,
 
 
 INSERT INTO users (id, username, password, first_name, last_name) VALUES (1, "user", "user", "User", "User");
+INSERT INTO users (id, username, password, first_name, last_name) VALUES (2, "user2", "user2", "User2", "User2");
 
 INSERT INTO user_data(id, height, weight, year_of_birth, gender, diet_id, diabetes, heart_disease, high_blood_pressure) VALUES (1,190, 150, 1975, 0, null, false, false, true);

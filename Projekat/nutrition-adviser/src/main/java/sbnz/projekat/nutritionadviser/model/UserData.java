@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class UserData {
 
@@ -21,16 +23,31 @@ public class UserData {
 	private Gender gender;
 	private Double bmi;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Diet diet;
 	private Boolean diabetes;
 	private Boolean heartDisease;
 	private Boolean highBloodPressure;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private User user;
 
 	public UserData() {
+	}
+
+	public UserData(Long id, Double height, Double weight, Integer yearOfBirth, Gender gender, Double bmi, Diet diet,
+			Boolean diabetes, Boolean heartDisease, Boolean highBloodPressure, User user) {
+		this.id = id;
+		this.height = height;
+		this.weight = weight;
+		this.yearOfBirth = yearOfBirth;
+		this.gender = gender;
+		this.bmi = bmi;
+		this.diet = diet;
+		this.diabetes = diabetes;
+		this.heartDisease = heartDisease;
+		this.highBloodPressure = highBloodPressure;
+		this.user = user;
 	}
 
 	public Double getHeight() {
@@ -113,6 +130,7 @@ public class UserData {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public User getUser() {
 		return user;
 	}
