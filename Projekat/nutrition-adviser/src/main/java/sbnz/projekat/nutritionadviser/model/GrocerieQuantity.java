@@ -1,7 +1,6 @@
 package sbnz.projekat.nutritionadviser.model;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +23,13 @@ public class GrocerieQuantity {
 	public GrocerieQuantity() {
 	}
 
+	public GrocerieQuantity(Long id, Grocerie grocerie, Double quantity, Meal meal) {
+		this.id = id;
+		this.grocerie = grocerie;
+		this.quantity = quantity;
+		this.meal = meal;
+	}
+	
 	public Grocerie getGrocerie() {
 		return grocerie;
 	}
