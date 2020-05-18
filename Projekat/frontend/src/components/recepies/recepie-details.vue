@@ -15,10 +15,8 @@
          <br /></p>
         <h4>Potrebne namirnice </h4>
         <ul>
-          <li>Belo meso </li>
-          <li>Pavlaka </li>
-          <li>Krastavac </li>
-          <li>Hleb </li>
+          <li v-for="grocerie in recepie.groceries">{{grocerie.grocerie.name}}, {{grocerie.quantity}}g </li>
+
 
         </ul>
         <br />
