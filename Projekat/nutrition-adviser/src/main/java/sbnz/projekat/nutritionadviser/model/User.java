@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -20,8 +23,9 @@ public class User {
 	private String lastName; 
 	// uloga
 	
-	@OneToOne(mappedBy = "user")
-	private UserData userData;
+	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	//@OneToOne(mappedBy = "user")
+	//private UserData userData;
 	
 	public User() {
 	}
@@ -65,13 +69,14 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+/*
+	@JsonIgnore
 	public UserData getUserData() {
 		return userData;
 	}
 
 	public void setUserData(UserData userData) {
 		this.userData = userData;
-	}
+	}*/
 	
 }
