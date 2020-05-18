@@ -7,11 +7,11 @@
 
     </div>
      <div class="col-md-9">
-        <h2>Hard Cider-Braised Pork </h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. <br />
+        <h2>{{recepie.name}}</h2>
+        <p>{{recepie.description}}<br />
          <br />
          <br />
-         <span class="monsBold">15min</span>| 754cal
+         <span class="monsBold">{{recepie.preparationTime}}min</span> | {{recepie.calories}}cal
          <br /></p>
         <h4>Potrebne namirnice </h4>
         <ul>
@@ -24,13 +24,12 @@
         <br />
 
         <h4>Nutritivna vrednost</h4>
-        Broj kalorija: <span class="monsBold">754cal</span><br />
-        Količina proteina: <br />
-        Količina ugljenih-hidrata:
+        Broj kalorija: <span class="monsBold">{{recepie.calories}}cal</span><br />
+        Količina proteina: <span class="monsBold">{{recepie.proteinAmount}}g</span> <br />
+        Količina ugljenih-hidrata: <span class="monsBold">{{recepie.carbohydrateAmount}}g</span>
 
         <h4 class="mt-3">Način pripreme</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad min. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minUt enim ad minim veniam. <br /> <br /></p>
-
+        <p>{{recepie.instructions}}</p>
       </div>
 
    </div>
@@ -39,15 +38,31 @@
 
 <script>
 
+import {AXIOS} from '../../http-common'
+
 export default {
   name: 'recepieDetails',
   data () {
     return {
+      recepie: {
+        name: "",
+        description: "",
+        preparationTime: 0,
+        calories: "",
 
+
+      },
     }
   },
   mounted(){
 
+    let api = 'meal/' +  1
+    AXIOS.get(api)
+      .then(response => {
+        this.recepie = response.data[0]
+        console.log(this.recepie)
+        })
+      .catch(err => console.log(err))
   }
   ,
   methods: {
