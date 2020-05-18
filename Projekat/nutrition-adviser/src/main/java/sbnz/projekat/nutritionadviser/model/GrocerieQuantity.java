@@ -14,11 +14,11 @@ public class GrocerieQuantity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Grocerie grocerie;
 	private Double quantity;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Meal meal;
 
 	public GrocerieQuantity() {

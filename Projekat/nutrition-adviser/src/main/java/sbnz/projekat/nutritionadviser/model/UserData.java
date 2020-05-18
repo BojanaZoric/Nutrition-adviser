@@ -25,7 +25,7 @@ public class UserData {
 	private Diet diet;
 	private Boolean diabetes;
 	private Boolean heartDisease;
-	private Boolean highBloodPresure;
+	private Boolean highBloodPressure;
 
 	@OneToOne
 	private User user;
@@ -89,12 +89,12 @@ public class UserData {
 		this.heartDisease = heartDisease;
 	}
 
-	public Boolean getHighBloodPresure() {
-		return highBloodPresure;
+	public Boolean getHighBloodPressure() {
+		return highBloodPressure;
 	}
 
-	public void setHighBloodPresure(Boolean highBloodPresure) {
-		this.highBloodPresure = highBloodPresure;
+	public void setHighBloodPressure(Boolean highBloodPressure) {
+		this.highBloodPressure = highBloodPressure;
 	}
 
 	public Diet getDiet() {
