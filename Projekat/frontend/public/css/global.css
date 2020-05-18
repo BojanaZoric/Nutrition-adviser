@@ -13,7 +13,7 @@
     src: url(../fonts/Montserrat/Montserrat-Bold.ttf);
 }
 
-h1 {
+h1, h5 {
     font-family: "MontserratLight";
 }
 
@@ -25,6 +25,14 @@ h1 {
     padding-top: 20px;
     padding-bottom: 20px;
     color: white;
+}
+
+.navigation h5 {
+    font-size: 17px;
+}
+
+.navigation h1 {
+    font-size: 32px;
 }
 
 body, html {
