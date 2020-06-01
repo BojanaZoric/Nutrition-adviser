@@ -26,7 +26,7 @@ public class NutritionAdviserApplication {
         }
 	}
 	
-	/*
+	
 	@Bean
 	public KieContainer kieContainer() {
 		KieServices ks = KieServices.Factory.get();
@@ -35,5 +35,5 @@ public class NutritionAdviserApplication {
 		KieScanner kScanner = ks.newKieScanner(kContainer);
 		kScanner.start(10_000);
 		return kContainer;
-	}*/
+	}
 }

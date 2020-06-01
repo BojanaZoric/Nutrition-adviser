@@ -2,6 +2,8 @@ package sbnz.projekat.nutritionadviser.service;
 
 import java.util.List;
 
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +22,12 @@ public class MealService {
 	private final MealRepository mealRepository;
 	private final GrocerieRepository grocerieRepository;
 	private final GrocerieQuantityRepository grocerieQuantityRepository;
-	// private final KieContainer kieContainer;
+    private final KieContainer kieContainer;
 
 	@Autowired
 	public MealService(MealRepository mealRepository, GrocerieRepository grocerieRepository,
-			GrocerieQuantityRepository grocerieQuantityRepository/* , KieContainer kieContainer */) {
-		// this.kieContainer = kieContainer;
+			GrocerieQuantityRepository grocerieQuantityRepository , KieContainer kieContainer) {
+		this.kieContainer = kieContainer;
 		this.mealRepository = mealRepository;
 		this.grocerieRepository = grocerieRepository;
 		this.grocerieQuantityRepository = grocerieQuantityRepository;
@@ -63,12 +65,13 @@ public class MealService {
 		
 		return mealRepository.save(m);
 	}
-	/*
-	 * public Meal calculateCalories(Meal meal){
-	 * 
-	 * KieSession kieSession = kieContainer.newKieSession();
-	 * kieSession.insert(meal); kieSession.fireAllRules(); kieSession.dispose();
-	 * 
-	 * return meal; }
-	 */
+	
+	 public Meal calculateCalories(Meal meal){
+	  
+	 KieSession kieSession = kieContainer.newKieSession();
+	 kieSession.insert(meal); kieSession.fireAllRules(); kieSession.dispose();
+	 
+	 return meal; 
+	 }
+	 
 }
