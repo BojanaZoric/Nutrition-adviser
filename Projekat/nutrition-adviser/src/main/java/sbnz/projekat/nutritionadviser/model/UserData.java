@@ -1,10 +1,12 @@
 package sbnz.projekat.nutritionadviser.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -29,7 +31,8 @@ public class UserData {
 	private Boolean heartDisease;
 	private Boolean highBloodPressure;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
 	public UserData() {
@@ -130,7 +133,6 @@ public class UserData {
 		this.id = id;
 	}
 
-	@JsonIgnore
 	public User getUser() {
 		return user;
 	}

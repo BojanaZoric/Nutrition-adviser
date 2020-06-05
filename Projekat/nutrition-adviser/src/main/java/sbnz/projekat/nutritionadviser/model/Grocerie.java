@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,7 +27,18 @@ public class Grocerie {
 	private Set<GrocerieQuantity> grocerieQuantity;
 
 	public Grocerie() {
+		this.grocerieQuantity = new HashSet<>();
 	}
+
+	
+	public Grocerie(Long id, String name, Integer calories, Boolean glutenFree) {
+		this();
+		this.id = id;
+		this.name = name;
+		this.calories = calories;
+		this.glutenFree = glutenFree;
+	}
+
 
 	public Long getId() {
 		return id;
@@ -60,6 +72,7 @@ public class Grocerie {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public Set<GrocerieQuantity> getGrocerieQuantity() {
 		return grocerieQuantity;
 	}

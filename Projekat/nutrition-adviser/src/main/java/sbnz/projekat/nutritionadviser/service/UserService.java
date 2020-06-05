@@ -28,8 +28,10 @@ public class UserService {
 		User user = this.userRepository.getOne(userId);
 		
 		UserData data = new UserData(null, details.getHeight(), details.getWeight(), details.getYearOfBirth(), null, null, null, details.isDiabetes(), details.isHeartDisease(), details.isHighBloodPressure(), user);
-	
-		return userDataRepository.save(data);
+		UserData saved = userDataRepository.save(data);
+		user.setUserData(saved);
+		this.userRepository.save(user);
+		return saved;
 	}
 	
 	public List<UserData> getAllData(){

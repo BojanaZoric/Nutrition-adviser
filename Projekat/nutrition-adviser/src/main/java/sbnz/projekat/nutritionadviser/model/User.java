@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,9 +24,8 @@ public class User {
 	private String lastName; 
 	// uloga
 	
-	//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	//@OneToOne(mappedBy = "user")
-	//private UserData userData;
+	@OneToOne(mappedBy = "user")
+	private UserData userData;
 	
 	public User() {
 	}
@@ -69,7 +69,7 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
-/*
+
 	@JsonIgnore
 	public UserData getUserData() {
 		return userData;
@@ -77,6 +77,6 @@ public class User {
 
 	public void setUserData(UserData userData) {
 		this.userData = userData;
-	}*/
+	}
 	
 }
