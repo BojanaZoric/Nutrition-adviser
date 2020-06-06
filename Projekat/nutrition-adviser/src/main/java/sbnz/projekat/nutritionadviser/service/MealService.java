@@ -1,6 +1,7 @@
 package sbnz.projekat.nutritionadviser.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -22,11 +23,11 @@ public class MealService {
 	private final MealRepository mealRepository;
 	private final GrocerieRepository grocerieRepository;
 	private final GrocerieQuantityRepository grocerieQuantityRepository;
-    private final KieContainer kieContainer;
+	private final KieContainer kieContainer;
 
 	@Autowired
 	public MealService(MealRepository mealRepository, GrocerieRepository grocerieRepository,
-			GrocerieQuantityRepository grocerieQuantityRepository , KieContainer kieContainer) {
+			GrocerieQuantityRepository grocerieQuantityRepository, KieContainer kieContainer) {
 		this.kieContainer = kieContainer;
 		this.mealRepository = mealRepository;
 		this.grocerieRepository = grocerieRepository;
@@ -38,7 +39,13 @@ public class MealService {
 	}
 
 	public Meal getOne(Long id) {
-		return this.mealRepository.getOne(id);
+		Optional<Meal> meal = this.mealRepository.findById(id);
+		
+		if(meal.isPresent()) {
+			return meal.get();
+		}
+		
+		return null;
 	}
 
 	public Meal save(MealDTO dto) {
@@ -52,6 +59,8 @@ public class MealService {
 		m.setInstructions(dto.getInstructions());
 		m.setPreparationTime(dto.getPreparationTime());
 		m.setProteinAmount(dto.getProteinAmount());
+		
+		
 
 		for (GroceriesQuantityDTO gqDTO : dto.getGroceries()) {
 			Grocerie groc = grocerieRepository.getOne(gqDTO.getGrocerie_id());
@@ -59,19 +68,26 @@ public class MealService {
 			GrocerieQuantity gq = new GrocerieQuantity(null, groc, gqDTO.getQuantity(), m);
 
 			m.getGroceries().add(gq);
-			
-			this.grocerieQuantityRepository.save(gq);
+			System.out.println(gq.getGrocerie().getName());
+			//this.grocerieQuantityRepository.save(gq);
 		}
+
+		this.calculateCalories(m);
 		
-		return mealRepository.save(m);
+		Meal saved = mealRepository.save(m);
+
+		//return saved;
+		return null;
 	}
-	
-	 public Meal calculateCalories(Meal meal){
-	  
-	 KieSession kieSession = kieContainer.newKieSession();
-	 kieSession.insert(meal); kieSession.fireAllRules(); kieSession.dispose();
-	 
-	 return meal; 
-	 }
-	 
+
+	public Meal calculateCalories(Meal meal) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		kieSession.insert(meal);
+		kieSession.fireAllRules();
+		kieSession.dispose();
+
+		return meal;
+	}
+
 }

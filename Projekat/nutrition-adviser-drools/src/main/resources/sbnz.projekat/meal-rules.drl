@@ -4,7 +4,7 @@ import sbnz.projekat.nutritionadviser.model.Meal;
 
 rule "Calculate calories"
 	when 
-		$m: Meal()
+		$m: Meal();
 	then
-		System.out.println("Calculate meal calories")
+		System.out.println("Calculate meal calories");
 end

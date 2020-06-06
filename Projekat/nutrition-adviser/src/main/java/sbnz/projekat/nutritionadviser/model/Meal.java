@@ -21,7 +21,7 @@ public class Meal {
 	private String name;
 
 	@OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
-	private Set<GrocerieQuantity> groceries;
+	private Set<GrocerieQuantity> groceries = new HashSet<>();
 	
 	private Double calories;
 	
@@ -36,7 +36,7 @@ public class Meal {
 	private MealType mealType;
 
 	public Meal() {
-		this.groceries = new HashSet<>();
+		//this.groceries = new HashSet<>();
 	}
 
 	public Long getId() {
