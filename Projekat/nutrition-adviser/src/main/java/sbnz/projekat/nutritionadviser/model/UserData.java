@@ -1,11 +1,15 @@
 package sbnz.projekat.nutritionadviser.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -27,6 +31,14 @@ public class UserData {
 	private Boolean diabetes;
 	private Boolean heartDisease;
 	private Boolean highBloodPressure;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "user_allergy",
+			joinColumns = @JoinColumn(name = "user_data_id"),
+			inverseJoinColumns = @JoinColumn(name = "allergen_id")
+	)
+	private Set<Allergen> allergies;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -136,6 +148,14 @@ public class UserData {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Set<Allergen> getAllergies() {
+		return allergies;
+	}
+
+	public void setAllergies(Set<Allergen> allergies) {
+		this.allergies = allergies;
 	}
 
 }

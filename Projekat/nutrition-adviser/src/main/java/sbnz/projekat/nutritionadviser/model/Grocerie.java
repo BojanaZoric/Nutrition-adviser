@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,6 +27,14 @@ public class Grocerie {
 	private Double carbohydrateAmount;
 	private Boolean glutenFree;
 	// dodati tipove korisnika
+	
+	@ManyToMany
+	@JoinTable(
+			name = "grocerie_allergen",
+			joinColumns = @JoinColumn(name = "grocerie_id"),
+			inverseJoinColumns = @JoinColumn(name = "allergen_id")
+	)
+	private Set<Allergen> allergens;
 
 	@OneToMany(mappedBy = "grocerie", cascade = CascadeType.ALL)
 	private Set<GrocerieQuantity> grocerieQuantity;
@@ -99,6 +110,14 @@ public class Grocerie {
 
 	public void setCarbohydrateAmount(Double carbohydrateAmount) {
 		this.carbohydrateAmount = carbohydrateAmount;
+	}
+
+	public Set<Allergen> getAllergens() {
+		return allergens;
+	}
+
+	public void setAllergens(Set<Allergen> allergens) {
+		this.allergens = allergens;
 	}
 
 }
