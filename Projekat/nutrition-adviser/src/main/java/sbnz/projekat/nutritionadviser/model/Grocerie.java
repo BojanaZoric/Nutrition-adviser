@@ -20,9 +20,11 @@ public class Grocerie {
 	private Long id;
 	private String name;
 	private Integer calories;
+	private Double proteinAmount;
+	private Double carbohydrateAmount;
 	private Boolean glutenFree;
 	// dodati tipove korisnika
-	
+
 	@OneToMany(mappedBy = "grocerie", cascade = CascadeType.ALL)
 	private Set<GrocerieQuantity> grocerieQuantity;
 
@@ -30,15 +32,16 @@ public class Grocerie {
 		this.grocerieQuantity = new HashSet<>();
 	}
 
-	
-	public Grocerie(Long id, String name, Integer calories, Boolean glutenFree) {
+	public Grocerie(Long id, String name, Integer calories, Double proteinAmount, Double carbohydrateAmount,
+			Boolean glutenFree) {
 		this();
 		this.id = id;
 		this.name = name;
 		this.calories = calories;
+		this.proteinAmount = proteinAmount;
+		this.carbohydrateAmount = carbohydrateAmount;
 		this.glutenFree = glutenFree;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -80,6 +83,22 @@ public class Grocerie {
 	@JsonIgnore
 	public void setGrocerieQuantity(Set<GrocerieQuantity> grocerieQuantity) {
 		this.grocerieQuantity = grocerieQuantity;
+	}
+
+	public Double getProteinAmount() {
+		return proteinAmount;
+	}
+
+	public void setProteinAmount(Double proteinAmount) {
+		this.proteinAmount = proteinAmount;
+	}
+
+	public Double getCarbohydrateAmount() {
+		return carbohydrateAmount;
+	}
+
+	public void setCarbohydrateAmount(Double carbohydrateAmount) {
+		this.carbohydrateAmount = carbohydrateAmount;
 	}
 
 }

@@ -68,16 +68,14 @@ public class MealService {
 			GrocerieQuantity gq = new GrocerieQuantity(null, groc, gqDTO.getQuantity(), m);
 
 			m.getGroceries().add(gq);
-			System.out.println(gq.getGrocerie().getName());
 			//this.grocerieQuantityRepository.save(gq);
 		}
 
 		this.calculateCalories(m);
 		
 		Meal saved = mealRepository.save(m);
-
-		//return saved;
-		return null;
+		
+		return saved;
 	}
 
 	public Meal calculateCalories(Meal meal) {

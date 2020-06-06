@@ -7,7 +7,7 @@ public class GrocerieDTOConverter {
 	
 	public static Grocerie DtoToGrocerie(GrocerieDTO dto) {
 		
-		Grocerie grocerie = new Grocerie(dto.getId(), dto.getName(), dto.getCalories(), dto.isGlutenFree());
+		Grocerie grocerie = new Grocerie(dto.getId(), dto.getName(), dto.getCalories(), dto.getProteinAmount(), dto.getCarbohydrateAmount(), dto.isGlutenFree());
 		
 		return grocerie;
 	}

@@ -49,9 +49,9 @@ public class MealController {
 			value = "/{id}",
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<List<Meal>> getOne(@PathVariable("id") Long id){
+	public ResponseEntity<Meal> getOne(@PathVariable("id") Long id){
 		
-		return new ResponseEntity<List<Meal>>(mealService.getAll(), HttpStatus.OK);
+		return new ResponseEntity<Meal>(mealService.getOne(id), HttpStatus.OK);
 	}
 	
 }

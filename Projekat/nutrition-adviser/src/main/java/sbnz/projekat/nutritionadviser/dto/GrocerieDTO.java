@@ -5,6 +5,8 @@ public class GrocerieDTO {
 	private long id;
 	private String name;
 	private int calories;
+	private double proteinAmount;
+	private double carbohydrateAmount;
 	private boolean glutenFree;
 
 	public GrocerieDTO() {
@@ -40,5 +42,21 @@ public class GrocerieDTO {
 
 	public void setGlutenFree(boolean glutenFree) {
 		this.glutenFree = glutenFree;
+	}
+
+	public double getProteinAmount() {
+		return proteinAmount;
+	}
+
+	public void setProteinAmount(double proteinAmount) {
+		this.proteinAmount = proteinAmount;
+	}
+
+	public double getCarbohydrateAmount() {
+		return carbohydrateAmount;
+	}
+
+	public void setCarbohydrateAmount(double carbohydrateAmount) {
+		this.carbohydrateAmount = carbohydrateAmount;
 	}
 }

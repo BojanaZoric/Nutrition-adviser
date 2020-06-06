@@ -2,9 +2,24 @@ package sbnz.projekat;
 
 import sbnz.projekat.nutritionadviser.model.Meal;
 
-rule "Calculate calories"
+rule "Calculate Calories"
 	when 
 		$m: Meal();
 	then
+		modify($m) {setCalories(500.0);}
 		System.out.println("Calculate meal calories");
+end
+
+rule "Calculate Carbohydrate Amount"
+	when 
+		$m: Meal();
+	then
+		System.out.println("Calculate Carbohydrate Amount");
+end
+
+rule "Calculate Protein Amount"
+	when 
+		$m: Meal();
+	then
+		System.out.println("Calculate Protein Amount");
 end
