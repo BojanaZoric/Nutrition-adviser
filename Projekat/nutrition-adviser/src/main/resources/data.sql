@@ -10,12 +10,12 @@ INSERT INTO allergen (id, name) VALUES (1, "milk");
 INSERT INTO allergen (id, name) VALUES (2, "egg");
 INSERT INTO allergen (id, name) VALUES (3, "gluten");
 
-INSERT INTO grocerie (id, name, calories, gluten_free) VALUES (1, "sugar", 500, true);
-INSERT INTO grocerie (id, name, calories, gluten_free) VALUES (2, "milk", 200, true);
-INSERT INTO grocerie (id, name, calories, gluten_free) VALUES (3, "spagetti", 300, false);
-INSERT INTO grocerie (id, name, calories, gluten_free) VALUES (4, "salt", 250, true);
-INSERT INTO grocerie (id, name, calories, gluten_free) VALUES (5, "chocolate", 150, true);
-INSERT INTO grocerie (id, name, calories, gluten_free) VALUES (6, "cheese", 150, true);
+INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (1, "sugar", 500, 50, 20, true);
+INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (2, "milk", 200, 20, 10, true);
+INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (3, "spagetti", 300, 15, 20, false);
+INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (4, "salt", 250, 25, 30, true);
+INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (5, "chocolate", 150, 20, 5, true);
+INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (6, "cheese", 150, 5, 40, true);
 
 INSERT INTO grocerie_allergen(grocerie_id, allergen_id) VALUES (2, 1);
 INSERT INTO grocerie_allergen(grocerie_id, allergen_id) VALUES (6, 1);

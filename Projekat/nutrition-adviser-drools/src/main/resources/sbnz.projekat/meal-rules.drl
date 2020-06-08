@@ -1,25 +1,54 @@
 package sbnz.projekat;
 
 import sbnz.projekat.nutritionadviser.model.Meal;
+import sbnz.projekat.nutritionadviser.model.Grocerie;
+import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 
 rule "Calculate Calories"
+	agenda-group "meal"
+	lock-on-active true
 	when 
-		$m: Meal();
+		$meal: Meal($groceries: groceries);
+		Number( $calories: doubleValue) 
+		from accumulate(
+			GrocerieQuantity($quantity: quantity, 
+			$kcal: grocerie.calories) from $groceries,
+			sum($quantity*$kcal/100) // delimo sa 100 jer je referentna vrednost za 100g, a korisnik unosi u gramima
+		)
 	then
-		modify($m) {setCalories(500.0);}
-		System.out.println("Calculate meal calories");
+		modify($meal) {setCalories($calories);}
+		System.out.println("Calculate meal calories " + $calories);
 end
 
 rule "Calculate Carbohydrate Amount"
+	agenda-group "meal"
+	lock-on-active true
 	when 
-		$m: Meal();
+		$meal: Meal($groceries: groceries);
+		Number( $carbohydrate: doubleValue) 
+		from accumulate(
+			GrocerieQuantity($quantity: quantity, 
+			$carbo: grocerie.carbohydrateAmount) from $groceries,
+			sum($quantity*$carbo/100) 
+		)
 	then
-		System.out.println("Calculate Carbohydrate Amount");
+		modify($meal) {setCarbohydrateAmount($carbohydrate);}
+		System.out.println("Calculate Carbohydrate Amount " + $carbohydrate);
 end
 
 rule "Calculate Protein Amount"
+	agenda-group "meal"
+	lock-on-active true
 	when 
-		$m: Meal();
+		$meal: Meal($groceries: groceries);
+		Number($proteins: doubleValue) from accumulate(
+			GrocerieQuantity($quantity: quantity,
+			$prot: grocerie.proteinAmount)
+			from $groceries,
+			sum($quantity*$prot/100)
+		)
 	then
-		System.out.println("Calculate Protein Amount");
+		modify($meal) {setProteinAmount($proteins);}
+		System.out.println("Calculate Protein Amount " + $proteins);
 end
+

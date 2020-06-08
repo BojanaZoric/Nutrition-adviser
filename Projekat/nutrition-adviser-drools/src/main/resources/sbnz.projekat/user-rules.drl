@@ -1,0 +1,7 @@
+package sbnz.projekat;
+
+import sbnz.projekat.nutritionadviser.model.UserData
+
+// pravilo za racunanje BMI
+
+// pravilo za racunanje BMR

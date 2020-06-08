@@ -25,6 +25,12 @@ public class UserData {
 	private Integer yearOfBirth;
 	private Gender gender;
 	private Double bmi;
+	private Double bmr; //minimalan broj kalorija
+	
+	/*
+	 Men: BMR = 88.362 + (13.397 x weight in kg) + (4.799 x height in cm) - (5.677 x age in years)
+	 Women: BMR = 447.593 + (9.247 x weight in kg) + (3.098 x height in cm) - (4.330 x age in years)
+	 * */
 	
 	@ManyToOne
 	private Diet diet;
@@ -47,7 +53,7 @@ public class UserData {
 	public UserData() {
 	}
 
-	public UserData(Long id, Double height, Double weight, Integer yearOfBirth, Gender gender, Double bmi, Diet diet,
+	public UserData(Long id, Double height, Double weight, Integer yearOfBirth, Gender gender, Double bmi, Double bmr, Diet diet,
 			Boolean diabetes, Boolean heartDisease, Boolean highBloodPressure, User user) {
 		this.id = id;
 		this.height = height;
@@ -55,6 +61,7 @@ public class UserData {
 		this.yearOfBirth = yearOfBirth;
 		this.gender = gender;
 		this.bmi = bmi;
+		this.bmr = bmr;
 		this.diet = diet;
 		this.diabetes = diabetes;
 		this.heartDisease = heartDisease;
@@ -156,6 +163,14 @@ public class UserData {
 
 	public void setAllergies(Set<Allergen> allergies) {
 		this.allergies = allergies;
+	}
+
+	public Double getBmr() {
+		return bmr;
+	}
+
+	public void setBmr(Double bmr) {
+		this.bmr = bmr;
 	}
 
 }

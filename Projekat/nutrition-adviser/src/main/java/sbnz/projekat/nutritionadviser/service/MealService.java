@@ -82,7 +82,9 @@ public class MealService {
 
 		KieSession kieSession = kieContainer.newKieSession("session");
 		kieSession.insert(meal);
-		kieSession.fireAllRules();
+		kieSession.getAgenda().getAgendaGroup("meal").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila: " + numOfRules);
 		kieSession.dispose();
 
 		return meal;

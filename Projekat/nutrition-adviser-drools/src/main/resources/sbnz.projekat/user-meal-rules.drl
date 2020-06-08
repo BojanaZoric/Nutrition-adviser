@@ -1,3 +1,17 @@
 /*
 	Da li je obrok pogodan za korisnika zbog zdravstvenog stanja
 */
+
+package sbnz.projekat;
+import sbnz.projekat.nutritionadviser.model.Allergen;
+import sbnz.projekat.nutritionadviser.model.Meal;
+import sbnz.projekat.nutritionadviser.model.Grocerie;
+
+
+rule "User has allergie to meal component"
+	when 
+		$user: UserData($alergies: alergies);
+		$meal: Meal($groceries: groceries);
+
+	then
+end
