@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import sbnz.projekat.nutritionadviser.dto.GroceriesQuantityDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
+import sbnz.projekat.nutritionadviser.model.Allergen;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
+import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
 import sbnz.projekat.nutritionadviser.repository.GrocerieRepository;
 import sbnz.projekat.nutritionadviser.repository.MealRepository;
@@ -77,10 +80,21 @@ public class MealService {
 		
 		return saved;
 	}
+	
+	public void userGrocerieAllergie(UserData data, Grocerie grocerie) {
+		KieSession kieSession = kieContainer.newKieSession("session");
+		kieSession.insert(grocerie);
+		kieSession.insert(data);
+		kieSession.getAgenda().getAgendaGroup("user-meal").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+		kieSession.dispose();
+	}
 
 	public Meal calculateCalories(Meal meal) {
 
 		KieSession kieSession = kieContainer.newKieSession("session");
+
 		kieSession.insert(meal);
 		kieSession.getAgenda().getAgendaGroup("meal").setFocus();
 		int numOfRules = kieSession.fireAllRules();

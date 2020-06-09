@@ -9,5 +9,4 @@ class NutritionAdviserApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
