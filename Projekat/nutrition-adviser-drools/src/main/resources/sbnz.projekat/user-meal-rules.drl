@@ -6,12 +6,41 @@ package sbnz.projekat;
 import sbnz.projekat.nutritionadviser.model.Allergen;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
+import java.util.*;
 
+agenda-group "user-meal"
+/*
+query HasAllergies(Set $allergies)
+	$grocerie: Grocerie($alls: allergens)
+	$retVal: Number(intValue > 0) from accumulate (
+		$a: Allergen(
+			$allergies contains this
+		) from $alls,
+		count($a)
+	)
+end*/
+/*
+$grocerie: Grocerie($allergens: allergens);
+Number($count: intValue)
+		from accumulate(
+			Allergen(
+				this memberOf allergens
+			) from $allergies,
+			sum(1)
+		)
+*/
 
 rule "User has allergie to meal component"
 	when 
-		$user: UserData($alergies: alergies);
-		$meal: Meal($groceries: groceries);
-
+		$user: UserData($allergies: allergies)
+		//HasAllergies($allergies)
+		$grocerie: Grocerie($alls: allergens)
+		$retVal: Number(intValue > 0) from accumulate (
+		$a: Allergen(
+			$allergies contains this
+		) from $alls,
+		count($a)
+	)
 	then
+	System.out.println("Alergican " + $retVal);
 end
