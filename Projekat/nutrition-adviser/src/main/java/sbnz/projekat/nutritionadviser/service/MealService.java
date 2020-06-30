@@ -6,11 +6,14 @@ import java.util.Optional;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sbnz.projekat.nutritionadviser.dto.GroceriesQuantityDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
+import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Allergen;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
@@ -81,14 +84,49 @@ public class MealService {
 		return saved;
 	}
 	
-	public void userGrocerieAllergie(UserData data, Grocerie grocerie) {
+	public Alarm userGrocerieAllergie(UserData data, Grocerie grocerie) {
 		KieSession kieSession = kieContainer.newKieSession("session");
 		kieSession.insert(grocerie);
 		kieSession.insert(data);
 		kieSession.getAgenda().getAgendaGroup("user-meal").setFocus();
 		int numOfRules = kieSession.fireAllRules();
 		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+		
+		QueryResults results = kieSession.getQueryResults("Get alarm");
+
+		Alarm alarm = null;
+		for (QueryResultsRow queryResultsRow : results) {
+			alarm = (Alarm) queryResultsRow.get("$alarm");
+			
+			System.out.println("Alarm " + alarm.getMessage());
+		}
+		
+		
 		kieSession.dispose();
+		
+		return alarm;
+	}
+	
+	public Alarm userMealAllergie(UserData data, Meal meal) {
+		KieSession kieSession = kieContainer.newKieSession("session");
+		kieSession.insert(meal);
+		kieSession.insert(data);
+		kieSession.getAgenda().getAgendaGroup("user-meal").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+		
+		QueryResults results = kieSession.getQueryResults("Get alarm");
+
+		Alarm alarm = null;
+		for (QueryResultsRow queryResultsRow : results) {
+			alarm = (Alarm) queryResultsRow.get("$alarm");
+			
+			System.out.println("Alarm " + alarm.getMessage());
+		}
+		
+		kieSession.dispose();
+		
+		return alarm;
 	}
 
 	public Meal calculateCalories(Meal meal) {
@@ -99,6 +137,8 @@ public class MealService {
 		kieSession.getAgenda().getAgendaGroup("meal").setFocus();
 		int numOfRules = kieSession.fireAllRules();
 		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+	
+		
 		kieSession.dispose();
 
 		return meal;

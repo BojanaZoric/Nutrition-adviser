@@ -3,37 +3,21 @@
 */
 
 package sbnz.projekat;
-import sbnz.projekat.nutritionadviser.model.Allergen;
-import sbnz.projekat.nutritionadviser.model.Meal;
-import sbnz.projekat.nutritionadviser.model.Grocerie;
+import sbnz.projekat.nutritionadviser.model.*;
+/*import sbnz.projekat.nutritionadviser.model.Meal;
+import sbnz.projekat.nutritionadviser.model.Grocerie;*/
 import java.util.*;
 
 agenda-group "user-meal"
-/*
-query HasAllergies(Set $allergies)
-	$grocerie: Grocerie($alls: allergens)
-	$retVal: Number(intValue > 0) from accumulate (
-		$a: Allergen(
-			$allergies contains this
-		) from $alls,
-		count($a)
-	)
-end*/
-/*
-$grocerie: Grocerie($allergens: allergens);
-Number($count: intValue)
-		from accumulate(
-			Allergen(
-				this memberOf allergens
-			) from $allergies,
-			sum(1)
-		)
-*/
 
-rule "User has allergie to meal component"
+query "Get alarm"
+	$alarm: Alarm()
+end
+
+
+rule "User has allergie grocerie"
 	when 
 		$user: UserData($allergies: allergies)
-		//HasAllergies($allergies)
 		$grocerie: Grocerie($alls: allergens)
 		$retVal: Number(intValue > 0) from accumulate (
 		$a: Allergen(
@@ -43,4 +27,40 @@ rule "User has allergie to meal component"
 	)
 	then
 	System.out.println("Alergican " + $retVal);
+	insert(new Alarm(null, null, "Korisnik je alergican na ovu namirnicu"));
 end
+
+
+rule "User has allergie to meal"
+	when 
+		$user: UserData($allergies: allergies)
+		$meal: Meal($alls: getAllergens())
+		$retVal: Number(intValue > 0) from accumulate (
+		$a: Allergen(
+			$allergies contains this
+		) from $alls,
+		count($a)
+	)
+	then
+	System.out.println("Alergican na obrok " + $retVal);
+	insert(new Alarm(null, $meal, "Korisnik je alergican na neki od sastojaka obroka"));
+end
+
+
+/* NE RADI
+rule "User has allergie to meal"
+	when 
+		$user: UserData($allergies: allergies)
+		$meal: Meal($alls: getAllergens()) and
+		accumulate (
+			Grocerie($g: this, $allergens: allergens) from $meal.getComponents() and
+			List(size>0) from collect (
+				Allergen($allergies contains this) from $allergens
+			)
+		)
+	then
+	System.out.println("Alergican na obrok " + $list.size());
+	insert(new Alarm(null, $meal, "Korisnik je alergican na neki od sastojaka obroka"));
+end*/
+
+

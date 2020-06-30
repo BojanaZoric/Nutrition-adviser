@@ -1,6 +1,7 @@
 package sbnz.projekat.nutritionadviser.rules;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashSet;
@@ -8,8 +9,11 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieServices;
+import org.kie.api.cdi.KSession;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.rule.QueryResults;
 
+import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Allergen;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
@@ -65,7 +69,9 @@ public class MealRulesTest {
 		grocerie.setAllergens(new HashSet<>());
 		grocerie.getAllergens().add(a);
 		
-		mealService.userGrocerieAllergie(data, grocerie);
+		Alarm alarm = mealService.userGrocerieAllergie(data, grocerie);
+		
+		assertNotNull(alarm);
 	}
 	
 	@Test
@@ -83,7 +89,67 @@ public class MealRulesTest {
 		grocerie.setAllergens(new HashSet<>());
 		grocerie.getAllergens().add(b);
 		
-		mealService.userGrocerieAllergie(data, grocerie);
+		Alarm alarm = mealService.userGrocerieAllergie(data, grocerie);
+		assertNull(alarm);
+	}
+	
+	@Test
+	public void userMealHasAllergie() {
+		//alergican na obrok
+		Allergen a = new Allergen();
+		a.setId(new Long(5));
+		
+		UserData data = new UserData();
+		data.setAllergies(new HashSet<>());
+		data.getAllergies().add(a);
+		
+		Grocerie grocerie = new Grocerie();
+		grocerie.setAllergens(new HashSet<>());
+		grocerie.getAllergens().add(a);
+		grocerie.setCalories(100);
+		grocerie.setCarbohydrateAmount(50.0);
+		grocerie.setProteinAmount(10.0);
+		
+		Meal meal = new Meal();
+		meal.setName("Pizza");
+		
+		meal.setGroceries(new HashSet<>());
+		
+		meal.getGroceries().add(new GrocerieQuantity(10l, grocerie, 200.0, meal));
+		
+		Alarm alarm = mealService.userMealAllergie(data, meal);
+		
+		assertNotNull(alarm);
+	}
+	
+	@Test
+	public void userMealNotHasAllergie() {
+		//alergican na obrok
+		Allergen a = new Allergen();
+		Allergen b = new Allergen();
+		a.setId(new Long(5));
+		b.setId(new Long(55));
+		UserData data = new UserData();
+		data.setAllergies(new HashSet<>());
+		data.getAllergies().add(a);
+		
+		Grocerie grocerie = new Grocerie();
+		grocerie.setAllergens(new HashSet<>());
+		grocerie.getAllergens().add(b);
+		grocerie.setCalories(100);
+		grocerie.setCarbohydrateAmount(50.0);
+		grocerie.setProteinAmount(10.0);
+		
+		Meal meal = new Meal();
+		meal.setName("Pizza");
+		
+		meal.setGroceries(new HashSet<>());
+		
+		meal.getGroceries().add(new GrocerieQuantity(10l, grocerie, 200.0, meal));
+		
+		Alarm alarm = mealService.userMealAllergie(data, meal);
+		
+		assertNull(alarm);
 	}
 
 }
