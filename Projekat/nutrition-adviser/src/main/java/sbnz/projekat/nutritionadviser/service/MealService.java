@@ -163,5 +163,22 @@ public class MealService {
 
 		return pm;
 	}
+	
+	public PossibleMeals checkIfMealHasAllGroceriesAndMore(GrocerieList grocerieList, Meal meal) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		PossibleMeals pm = new PossibleMeals();
+		kieSession.insert(pm);
+		kieSession.insert(meal);
+		kieSession.insert(grocerieList);
+		kieSession.getAgenda().getAgendaGroup("recommendation-more").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+	
+		
+		kieSession.dispose();
+
+		return pm;
+	}
 
 }

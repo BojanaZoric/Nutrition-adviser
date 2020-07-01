@@ -4,8 +4,9 @@ import java.util.*;
 
 rule "Find meal that has all groceries"
 	 agenda-group "recommendation"
+	 lock-on-active true
 	 when
-		 $meal: Meal($allGroceries: getComponents(), $name: name);
+		 $meal: Meal($allGroceries: groceries, $name: name);
 		 $pm: PossibleMeals();
 		 $gl: GrocerieList($usersGroceries: grocerieList);
 		 $usersGroceriesIDS: List() from accumulate (
@@ -16,10 +17,38 @@ rule "Find meal that has all groceries"
 		 $usersGroceriesIDS;);
 	 then
 	 	$pm.getMeals().add($meal);
+	 	System.out.println($allGroceries.size());
+	 	System.out.println($usersGroceriesIDS.size());
 	end
 	
-	query chechMealGroceries(List $allGroceries, List $usersGroceriesIDS)
+	query chechMealGroceries(Set $allGroceries, List $usersGroceriesIDS)
 		 $num := Number(intValue == $usersGroceriesIDS.size()) from
+			accumulate(GrocerieQuantity($id: grocerie.id, $id memberOf $usersGroceriesIDS) from $allGroceries,
+		 init(int count = 0;),
+		 action(count += 1;),
+		 result(count)
+	 )
+end
+
+rule "Find meal that has all groceries and more"
+	 agenda-group "recommendation-more"
+	 lock-on-active true
+	 when
+		 $meal: Meal($allGroceries: getComponents(), $name: name);
+		 $pm: PossibleMeals();
+		 $gl: GrocerieList($usersGroceries: grocerieList);
+		 $usersGroceriesIDS: List() from accumulate (
+		 Grocerie($id: id) from $usersGroceries,
+			collectList($id)
+		 )
+		 checkMealGroceries($allGroceries,
+		 $usersGroceriesIDS;);
+	 then
+	 	$pm.getMeals().add($meal);
+	end
+	
+	query checkMealGroceries(List $allGroceries, List $usersGroceriesIDS)
+		 $num := Number(intValue >= $usersGroceriesIDS.size()) from
 			accumulate(Grocerie($id: id, $id memberOf $usersGroceriesIDS) from $allGroceries,
 		 init(int count = 0;),
 		 action(count += 1;),

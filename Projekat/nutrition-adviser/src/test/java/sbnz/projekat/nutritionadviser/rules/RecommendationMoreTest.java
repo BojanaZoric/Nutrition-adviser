@@ -16,7 +16,7 @@ import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.PossibleMeals;
 import sbnz.projekat.nutritionadviser.service.MealService;
 
-public class RecommendationTest {
+public class RecommendationMoreTest {
 
 	private MealService mealService;
 
@@ -27,9 +27,9 @@ public class RecommendationTest {
 		
 		mealService = new MealService(null, null, null, kContainer);
 	}
-	
+
 	@Test
-	public void checkIfMealHasAllGroceriesTrue() {
+	public void checkIfMealHasAllGroceriesAndMore_Equal() {
 		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false);
 		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false);
 		Meal meal = new Meal();
@@ -43,13 +43,13 @@ public class RecommendationTest {
 		gl.getGrocerieList().add(grocerie1);
 		gl.getGrocerieList().add(grocerie2);
 		
-		PossibleMeals pm = mealService.checkIfMealHasAllGroceries(gl, meal);
+		PossibleMeals pm = mealService.checkIfMealHasAllGroceriesAndMore(gl, meal);
 		assertEquals(1, pm.getMeals().size());
 
 	}
 	
 	@Test
-	public void checkIfMealHasAllGroceriesFalse() {
+	public void checkIfMealHasAllGroceriesAndMore_NotAll() {
 		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false);
 		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false);
 		Meal meal = new Meal();
@@ -64,15 +64,13 @@ public class RecommendationTest {
 		gl.getGrocerieList().add(grocerie2);
 		gl.getGrocerieList().add(new Grocerie(new Long(10), "banana", 50, 15.0, 10.0, false));
 		
-		PossibleMeals pm = mealService.checkIfMealHasAllGroceries(gl, meal);
-		System.out.println("NJAA" + pm.getMeals().size());
-
+		PossibleMeals pm = mealService.checkIfMealHasAllGroceriesAndMore(gl, meal);
 		assertEquals(0, pm.getMeals().size());
 
 	}
 	
 	@Test
-	public void checkIfMealHasAllGroceries_notAll() {
+	public void checkIfMealHasAllGroceriesandMore_More() {
 		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false);
 		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false);
 		Grocerie grocerie3 = new Grocerie(new Long(2), "banana", 50, 15.0, 10.0, false);
@@ -88,8 +86,8 @@ public class RecommendationTest {
 		gl.getGrocerieList().add(grocerie1);
 		gl.getGrocerieList().add(grocerie2);
 		
-		PossibleMeals pm = mealService.checkIfMealHasAllGroceries(gl, meal);
-		assertEquals(0, pm.getMeals().size());
+		PossibleMeals pm = mealService.checkIfMealHasAllGroceriesAndMore(gl, meal);
+		assertEquals(1, pm.getMeals().size());
 
 	}
 }
