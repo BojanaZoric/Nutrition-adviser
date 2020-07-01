@@ -16,8 +16,10 @@ import sbnz.projekat.nutritionadviser.dto.MealDTO;
 import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Allergen;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
+import sbnz.projekat.nutritionadviser.model.GrocerieList;
 import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
+import sbnz.projekat.nutritionadviser.model.PossibleMeals;
 import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
 import sbnz.projekat.nutritionadviser.repository.GrocerieRepository;
@@ -142,6 +144,24 @@ public class MealService {
 		kieSession.dispose();
 
 		return meal;
+	}
+	
+	
+	public PossibleMeals checkIfMealHasAllGroceries(GrocerieList grocerieList, Meal meal) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		PossibleMeals pm = new PossibleMeals();
+		kieSession.insert(pm);
+		kieSession.insert(meal);
+		kieSession.insert(grocerieList);
+		kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+	
+		
+		kieSession.dispose();
+
+		return pm;
 	}
 
 }

@@ -9,5 +9,22 @@
 	<name>nutrition-adviser-drools</name>
 	<description>SBNZ projekat</description>
 	<packaging>jar</packaging>
-
+	<repositories>
+		<repository>
+		    <id>maciejwalkowiak.pl</id>
+		    <url>https://github.com/maciejwalkowiak/maven-repo/raw/releases/</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+		    <groupId>pl.maciejwalkowiak</groupId>
+		    <artifactId>junit-drools</artifactId>
+		    <version>1.0</version>
+		    <scope>test</scope>
+		</dependency>
+</dependencies>
+  <properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
 </project>

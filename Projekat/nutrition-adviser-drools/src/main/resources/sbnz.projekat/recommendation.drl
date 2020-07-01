@@ -1,0 +1,23 @@
+rule "Find meal that has all groceries"
+	 agenda-group "recommendation"
+	 when
+		 $meal: Meal($allGroceries: groceries, $name: name);
+		 $pm: PossibleMeals();
+		 $gl: GrocerieList($usersGroceries: grocerieList);
+		 $usersGroceriesIDS: List() from accumulate (
+		 Grocerie($id: id) from $usersGroceries,
+			collectList($id)
+		 )
+		 chechMealGroceries($num, $allGroceries,
+		$usersGroceriesIDS;);
+	 then
+	 	$pm.getMeals().add($meal);
+	end
+	query chechMealGroceries(Number $num, List allGroceries, List usersGroceriesIDS)
+		 $num := Number(intValue == allGroceries.size()) from
+			accumulate(GrocerieQuantity($id: grocerie.id, id memberOf usersGroceriesIDS) from $allGroceries,
+		 init(int count = 0;),
+		 action(count += 1;),
+		 result(count)
+	 )
+end

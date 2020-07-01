@@ -24,11 +24,24 @@ public class User {
 	private String lastName; 
 	// uloga
 	
+	
+	
 	@OneToOne(mappedBy = "user")
 	private UserData userData;
 	
+
 	public User() {
 	}
+	
+	public User(String username, String password, String firstName, String lastName, UserData userData) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userData = userData;
+	}
+
 
 	public String getUsername() {
 		return username;

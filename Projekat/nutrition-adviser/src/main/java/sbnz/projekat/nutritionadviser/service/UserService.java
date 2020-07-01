@@ -13,6 +13,10 @@ import sbnz.projekat.nutritionadviser.model.User;
 import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.UserDataRepository;
 import sbnz.projekat.nutritionadviser.repository.UserRepository;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -43,6 +47,7 @@ public class UserService {
 
 		UserData data = new UserData(null, details.getHeight(), details.getWeight(), details.getYearOfBirth(), gender,
 				null, null, null, details.isDiabetes(), details.isHeartDisease(), details.isHighBloodPressure(), user);
+		data = this.calculateData(data);
 		UserData saved = userDataRepository.save(data);
 		user.setUserData(saved);
 		this.userRepository.save(user);
