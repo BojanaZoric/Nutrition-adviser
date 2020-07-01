@@ -47,4 +47,25 @@ public class RecommendationTest {
 		assertEquals(1, pm.getMeals().size());
 
 	}
+	
+	@Test
+	public void recommendNotMeal() {
+		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false);
+		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false);
+		Meal meal = new Meal();
+		meal.setGroceries(new HashSet<>());
+		meal.getGroceries().add(new GrocerieQuantity(new Long(1), grocerie1, 100.0, meal));
+		meal.getGroceries().add(new GrocerieQuantity(new Long(2), grocerie2, 200.0, meal));
+		
+
+		
+		GrocerieList gl = new GrocerieList();
+		gl.getGrocerieList().add(grocerie1);
+		gl.getGrocerieList().add(grocerie2);
+		gl.getGrocerieList().add(new Grocerie(new Long(10), "banana", 50, 15.0, 10.0, false));
+		
+		PossibleMeals pm = mealService.checkIfMealHasAllGroceries(gl, meal);
+		assertEquals(0, pm.getMeals().size());
+
+	}
 }
