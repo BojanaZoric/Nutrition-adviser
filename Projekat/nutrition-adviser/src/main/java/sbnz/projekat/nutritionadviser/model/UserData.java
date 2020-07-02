@@ -1,6 +1,8 @@
 package sbnz.projekat.nutritionadviser.model;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -56,6 +58,7 @@ public class UserData {
 	private User user;
 
 	public UserData() {
+		this.details = new HashSet<MealDetails>();
 	}
 
 	public UserData(Long id, Double height, Double weight, Integer yearOfBirth, Gender gender, Double bmi, Double bmr, Diet diet,
@@ -74,6 +77,14 @@ public class UserData {
 		this.user = user;
 	}
 	
+	public Set<MealDetails> getDetails() {
+		return details;
+	}
+
+	public void setDetails(Set<MealDetails> details) {
+		this.details = details;
+	}
+
 	public UserData(Long id, Double height, Double weight, Integer yearOfBirth, Gender gender, Diet diet,
 			Boolean diabetes, Boolean heartDisease, Boolean highBloodPressure, User user) {
 		this.id = id;

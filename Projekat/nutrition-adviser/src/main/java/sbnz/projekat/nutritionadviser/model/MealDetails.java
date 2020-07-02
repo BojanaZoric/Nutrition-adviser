@@ -23,6 +23,7 @@ public class MealDetails {
 	private LocalDate date;
 
 	public MealDetails() {
+		
 	}
 
 	public MealDetails(Meal m, LocalDate d) {

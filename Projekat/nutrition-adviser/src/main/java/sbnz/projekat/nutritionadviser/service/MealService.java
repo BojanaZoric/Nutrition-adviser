@@ -218,4 +218,19 @@ public class MealService {
 		return mg;
 	}
 
+	public boolean calorieLimitExceed(UserData details) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		boolean exceed = false;
+		System.out.println("UDDDDaDDD" +details.getDetails().size());
+		kieSession.insert(details);
+		kieSession.getAgenda().getAgendaGroup("calorie-limit").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (calorieLimitExceed): " + numOfRules);
+	
+		kieSession.dispose();
+
+		return exceed;
+	}
+
 }
