@@ -24,6 +24,9 @@ public class Meal {
 
 	@OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
 	private Set<GrocerieQuantity> groceries = new HashSet<>();
+	
+	@OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
+	private Set<MealDetails> details = new HashSet<>();
 
 	private Double calories;
 
