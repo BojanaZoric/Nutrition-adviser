@@ -82,11 +82,10 @@ rule "Calorie limit exceeded"
 
     when
         $u: UserData($mealDetails: getDetails())
-        accumulate(
+        $sumCalories : Number(intValue > 1800 ) from accumulate(
          	MealDetails($d: this, $date: date, $date.isAfter(LocalDate.now().minusDays(1)), $meal: meal) from $mealDetails,
-         	$sumCalories: sum($meal.getCalories())
+         	sum($meal.getCalories())
          )
-         eval($sumCalories >= 1800)
     then
         System.out.println("Presao si broj kalorija druze");
 
