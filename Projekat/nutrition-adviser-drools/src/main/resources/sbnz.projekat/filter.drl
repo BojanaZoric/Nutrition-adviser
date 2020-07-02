@@ -1,0 +1,24 @@
+package sbnz.projekat;
+import sbnz.projekat.nutritionadviser.model.*;
+import sbnz.projekat.nutritionadviser.dto.*;
+
+import java.util.*;
+
+// pretraga obroka
+
+agenda-group "filter"
+
+rule "filter meals"
+	agenda-group "filter"
+	when
+		$filter: FilterDTO($name: name, $minKcal: minCalories, $maxKcal: maxCalories, $minProt: minProteins, $maxProt: maxProteins,
+							 $minTime: minPrepTime, $maxTime: maxPrepTime, $minCarbo: minCarbo, $maxCarbo: maxCarbo);
+		$meal: Meal($mealId: id, $name == null || name.contains($name), calories == -1 || calories>=$minKcal, calories == -1 || calories <= $maxKcal 
+		, $minTime == -1 || preparationTime>=$minTime, $maxTime == -1 || preparationTime <= $maxTime
+		, $minProt == -1 || proteinAmount>=$minProt, $maxProt == -1 || proteinAmount <= $maxProt
+		, $minCarbo == -1 || carbohydrateAmount>=$minCarbo, $maxCarbo == -1 || carbohydrateAmount <= $maxCarbo
+		);
+		$pm: PossibleMeals($meals: meals);
+	then
+		$meals.add($meal);
+end

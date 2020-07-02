@@ -11,6 +11,7 @@ import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sbnz.projekat.nutritionadviser.dto.FilterDTO;
 import sbnz.projekat.nutritionadviser.dto.GroceriesQuantityDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
 import sbnz.projekat.nutritionadviser.model.Alarm;
@@ -172,6 +173,27 @@ public class MealService {
 		kieSession.insert(meal);
 		kieSession.insert(grocerieList);
 		kieSession.getAgenda().getAgendaGroup("recommendation-more").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+	
+		
+		kieSession.dispose();
+
+		return pm;
+	}
+	
+	public PossibleMeals filterMeals(List<Meal> meals, FilterDTO filterDTO) {
+		
+		KieSession kieSession = kieContainer.newKieSession("session");
+		PossibleMeals pm = new PossibleMeals();
+		kieSession.insert(pm);
+		
+		for (Meal meal : meals) {
+			kieSession.insert(meal);
+		}
+		
+		kieSession.insert(filterDTO);
+		kieSession.getAgenda().getAgendaGroup("filter").setFocus();
 		int numOfRules = kieSession.fireAllRules();
 		System.out.println("Broj aktiviranih pravila: " + numOfRules);
 	
