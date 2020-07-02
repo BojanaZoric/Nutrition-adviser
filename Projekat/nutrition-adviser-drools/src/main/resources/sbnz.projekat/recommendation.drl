@@ -88,5 +88,6 @@ rule "Calorie limit exceeded"
          )
     then
         System.out.println("Presao si broj kalorija druze");
-
+		insert(new Alarm(null, null, "Korisnik je presao dozvoljeni broj kalorija u toku dana"));
+		
 end

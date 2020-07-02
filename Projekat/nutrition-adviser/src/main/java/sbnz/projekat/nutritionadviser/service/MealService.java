@@ -228,6 +228,16 @@ public class MealService {
 		int numOfRules = kieSession.fireAllRules();
 		System.out.println("Broj aktiviranih pravila (calorieLimitExceed): " + numOfRules);
 	
+		QueryResults results = kieSession.getQueryResults("Get alarm");
+
+		Alarm alarm = null;
+		for (QueryResultsRow queryResultsRow : results) {
+			alarm = (Alarm) queryResultsRow.get("$alarm");
+			
+			System.out.println("Alarm " + alarm.getMessage());
+			exceed = true;
+		}
+		
 		kieSession.dispose();
 
 		return exceed;

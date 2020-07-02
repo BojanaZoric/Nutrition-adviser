@@ -202,6 +202,27 @@ public class RecommendationTest {
 		meal.getGroceries().add(new GrocerieQuantity(new Long(2), grocerie3, 300.0, meal));
 		meal.getGroceries().add(new GrocerieQuantity(new Long(3), grocerie4, 300.0, meal));
 
+		meal.setCalories(2000.0);
+		
+		MealDetails md1 = new MealDetails(meal, LocalDate.now());
+		MealDetails md2 = new MealDetails(meal, LocalDate.now());
+
+		UserData ud = new UserData();
+		ud.getDetails().add(md1);
+		ud.getDetails().add(md2);
+		
+		boolean exceed = mealService.calorieLimitExceed(ud);
+		assertEquals(true, exceed);
+
+	}
+	
+	@Test
+	public void testCalorieLimitExceed2() {
+		
+
+		Meal meal = new Meal();
+
+		meal.setCalories(100.0);
 		
 		MealDetails md1 = new MealDetails(meal, LocalDate.now());
 		MealDetails md2 = new MealDetails(meal, LocalDate.now());
