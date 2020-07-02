@@ -21,6 +21,7 @@ import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.MissingGroceries;
 import sbnz.projekat.nutritionadviser.model.PossibleMeals;
+import sbnz.projekat.nutritionadviser.model.RecommendedMeal;
 import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
 import sbnz.projekat.nutritionadviser.repository.GrocerieRepository;
@@ -196,6 +197,48 @@ public class MealService {
 		kieSession.dispose();
 
 		return mg;
+	}
+	
+	public RecommendedMeal recommendBestMeal(GrocerieList grocerieList) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		RecommendedMeal pm = new RecommendedMeal();
+		
+		List<Meal> meals = mealRepository.findAll();
+		for(Meal m : meals) {
+			kieSession.insert(m);
+		}
+		kieSession.insert(pm);
+		kieSession.insert(grocerieList);
+		kieSession.getAgenda().getAgendaGroup("recommendation-best").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (recommendBestMeal): " + numOfRules);
+	
+		
+		kieSession.dispose();
+
+		return pm;
+	}
+	
+	
+	public RecommendedMeal recommendBestMeal(GrocerieList grocerieList, List<Meal> meals) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		RecommendedMeal pm = new RecommendedMeal();
+		
+		for(Meal m : meals) {
+			kieSession.insert(m);
+		}
+		kieSession.insert(pm);
+		kieSession.insert(grocerieList);
+		kieSession.getAgenda().getAgendaGroup("recommendation-best").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (recommendBestMeal): " + numOfRules);
+	
+		
+		kieSession.dispose();
+
+		return pm;
 	}
 
 }

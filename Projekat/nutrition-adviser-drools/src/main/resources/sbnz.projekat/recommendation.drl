@@ -75,3 +75,20 @@ query checkMealGroceries(List $allGroceries, List $usersGroceriesIDS)
 	 result(count)
  )
 end
+
+rule "Recommend best meal" 
+	agenda-group "recommendation-best"
+	salience ($allGroceries.size()/$value)
+    when
+		$meal: Meal($allGroceries: getComponents(), $name: name);
+		$mealRecommend: RecommendedMeal();
+        $gl: GrocerieList($usersGroceries: grocerieList);
+        Number($value: intValue >= 1) from accumulate(
+        	Grocerie($t:this, this memberOf $allGroceries) from $usersGroceries,
+        	count($t)
+        )
+    then
+    	System.out.println("Meal: " + $name);
+    	System.out.println("Number of groceries: " + $value + "/" + $allGroceries.size());
+    	modify($mealRecommend) { setRecommendedMeal($meal) }
+end

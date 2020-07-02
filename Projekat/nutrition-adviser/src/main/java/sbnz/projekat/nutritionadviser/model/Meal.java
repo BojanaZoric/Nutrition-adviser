@@ -40,7 +40,7 @@ public class Meal {
 	public Meal() {
 		// this.groceries = new HashSet<>();
 	}
-
+	
 	public List<Grocerie> getComponents() {
 		// vraca samo listu namirnica koje jelo sadrzi, bez obzira na kolicinu
 

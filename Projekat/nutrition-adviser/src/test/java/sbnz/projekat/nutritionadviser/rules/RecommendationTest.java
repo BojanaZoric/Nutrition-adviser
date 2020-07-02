@@ -2,6 +2,8 @@ package sbnz.projekat.nutritionadviser.rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.junit.Before;
@@ -15,6 +17,7 @@ import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.MissingGroceries;
 import sbnz.projekat.nutritionadviser.model.PossibleMeals;
+import sbnz.projekat.nutritionadviser.model.RecommendedMeal;
 import sbnz.projekat.nutritionadviser.service.MealService;
 
 public class RecommendationTest {
@@ -178,6 +181,47 @@ public class RecommendationTest {
 		
 		MissingGroceries pm = mealService.findMissingGroceriesFromMeal(gl, meal);
 		assertEquals(2, pm.getGroceries().size());
+
+	}
+	
+	
+	@Test
+	public void recommendBestMeal() {
+		
+		ArrayList<Meal> meals = new ArrayList<Meal>();
+		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false);
+		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false);
+		Grocerie grocerie3 = new Grocerie(new Long(3), "banana", 50, 15.0, 10.0, false);
+		Grocerie grocerie4 = new Grocerie(new Long(4), "banana2", 50, 15.0, 10.0, false);
+
+		Meal meal = new Meal();
+		meal.setName("Meal1");
+		meal.setGroceries(new HashSet<>());
+		meal.getGroceries().add(new GrocerieQuantity(new Long(1), grocerie1, 100.0, meal));
+		meal.getGroceries().add(new GrocerieQuantity(new Long(2), grocerie2, 200.0, meal));
+		meal.getGroceries().add(new GrocerieQuantity(new Long(3), grocerie3, 300.0, meal));
+		meal.getGroceries().add(new GrocerieQuantity(new Long(4), grocerie4, 300.0, meal));
+
+		meals.add(meal);
+		
+		Grocerie grocerie5 = new Grocerie(new Long(5), "sugar2", 500, 5.0, 40.0, false);
+		Grocerie grocerie6 = new Grocerie(new Long(6), "milk2", 50, 15.0, 10.0, false);
+		
+		Meal meal2 = new Meal();
+		meal2.setName("Meal2");
+		meal2.setGroceries(new HashSet<>());
+		meal2.getGroceries().add(new GrocerieQuantity(new Long(5), grocerie5, 100.0, meal));
+		meal2.getGroceries().add(new GrocerieQuantity(new Long(6), grocerie6, 200.0, meal));
+		meal2.getGroceries().add(new GrocerieQuantity(new Long(7), grocerie1, 300.0, meal));
+		
+		meals.add(meal2);
+		GrocerieList gl = new GrocerieList();
+		gl.getGrocerieList().add(grocerie1);
+		gl.getGrocerieList().add(grocerie2);
+		
+		RecommendedMeal pm = mealService.recommendBestMeal(gl, meals);
+		System.out.println(pm.getRecommendedMeal().getId());
+		assertEquals("Meal1", pm.getRecommendedMeal().getName());
 
 	}
 }
