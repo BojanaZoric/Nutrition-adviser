@@ -63,11 +63,11 @@ public class FilterRulesTest {
 
 		Meal meal2 = new Meal();
 
-		meal.setName("pasta");
-		meal.setCalories(300.0);
+		meal2.setName("pasta");
+		meal2.setCalories(300.0);
 
 		FilterDTO dto = new FilterDTO();
-		dto.setName("pizza");
+		//dto.setName("pizza");
 		dto.setMinCalories(200);
 		dto.setMaxCalories(1000);
 
@@ -77,7 +77,46 @@ public class FilterRulesTest {
 
 		PossibleMeals pm = this.mealService.filterMeals(meals, dto);
 
+		assertEquals(2, pm.getMeals().size());
+	}
+	
+	@Test
+	public void filterMeals3() {
+		Meal meal = new Meal();
+
+		meal.setName("pizza");
+		meal.setCalories(500.0);
+		meal.setPreparationTime(60.0);
+		meal.setProteinAmount(20.0);
+
+		Meal meal2 = new Meal();
+
+		meal2.setName("pasta");
+		meal2.setCalories(300.0);
+		meal2.setPreparationTime(90.0);
+		meal2.setProteinAmount(10.0);
+		
+		Meal meal3 = new Meal();
+
+		meal3.setName("omlette");
+		meal3.setCalories(200.0);
+		meal3.setPreparationTime(120.0);
+		meal3.setProteinAmount(15.0);
+
+		FilterDTO dto = new FilterDTO();
+		//dto.setName("pizza");
+		dto.setMinProteins(15.0);
+		dto.setMaxPrepTime(100.0);;
+
+		List<Meal> meals = new ArrayList<Meal>();
+		meals.add(meal);
+		meals.add(meal2);
+		meals.add(meal3);
+
+		PossibleMeals pm = this.mealService.filterMeals(meals, dto);
+
 		assertEquals(1, pm.getMeals().size());
+	
 	}
 
 }
