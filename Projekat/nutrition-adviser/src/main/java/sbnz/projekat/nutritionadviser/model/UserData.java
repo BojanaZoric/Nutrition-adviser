@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -37,6 +39,9 @@ public class UserData {
 	private Boolean diabetes;
 	private Boolean heartDisease;
 	private Boolean highBloodPressure;
+	
+	@OneToMany(mappedBy = "userData", cascade = CascadeType.ALL)
+	private Set<MealDetails> details = new HashSet<>();
 	
 	@ManyToMany
 	@JoinTable(

@@ -32,5 +32,5 @@ INSERT INTO users (id, username, password, first_name, last_name) VALUES (2, "us
 
 INSERT INTO user_data(id, height, weight, year_of_birth, gender, diet_id, diabetes, heart_disease, high_blood_pressure) VALUES (1,190, 150, 1975, 0, null, false, false, true);
 
-INSERT INTO meal_details(id, meal_id, date) values (1,1,'2020-05-30');
-INSERT INTO meal_details(id, meal_id, date) values (2,1,'2020-05-30');
+INSERT INTO meal_details(id, meal_id, date, user_data_id) values (1,1,'2020-05-30', 1);
+INSERT INTO meal_details(id, meal_id, date, user_data_id) values (2,1,'2020-05-30', 1);

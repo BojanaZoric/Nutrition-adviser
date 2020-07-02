@@ -1,6 +1,5 @@
 package sbnz.projekat.nutritionadviser.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +14,6 @@ import sbnz.projekat.nutritionadviser.dto.FilterDTO;
 import sbnz.projekat.nutritionadviser.dto.GroceriesQuantityDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
 import sbnz.projekat.nutritionadviser.model.Alarm;
-import sbnz.projekat.nutritionadviser.model.Allergen;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieList;
 import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
@@ -203,7 +201,7 @@ public class MealService {
 		kieSession.dispose();
 
 		return pm;
-
+	}
 	public MissingGroceries findMissingGroceriesFromMeal(GrocerieList grocerieList, Meal meal) {
 
 		KieSession kieSession = kieContainer.newKieSession("session");

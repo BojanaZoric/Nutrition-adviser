@@ -16,6 +16,9 @@ public class MealDetails {
 
 	@ManyToOne
 	private Meal meal;
+	
+	@ManyToOne
+	private UserData userData;
 
 	private LocalDate date;
 
