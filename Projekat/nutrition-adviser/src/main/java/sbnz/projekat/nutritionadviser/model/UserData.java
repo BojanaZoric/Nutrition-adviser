@@ -68,6 +68,21 @@ public class UserData {
 		this.highBloodPressure = highBloodPressure;
 		this.user = user;
 	}
+	
+	public UserData(Long id, Double height, Double weight, Integer yearOfBirth, Gender gender, Diet diet,
+			Boolean diabetes, Boolean heartDisease, Boolean highBloodPressure, User user) {
+		this.id = id;
+		this.height = height;
+		this.weight = weight;
+		this.yearOfBirth = yearOfBirth;
+		this.gender = gender;
+
+		this.diet = diet;
+		this.diabetes = diabetes;
+		this.heartDisease = heartDisease;
+		this.highBloodPressure = highBloodPressure;
+		this.user = user;
+	}
 
 	public Double getHeight() {
 		return height;

@@ -12,6 +12,18 @@ public class UserDetailsDTO {
 	private boolean heartDisease;
 	private boolean highBloodPressure;
 	
+	public UserDetailsDTO(double height, double weight, int yearOfBirth, String gender, String diet, boolean diabetes,
+			boolean heartDisease, boolean highBloodPressure) {
+		super();
+		this.height = height;
+		this.weight = weight;
+		this.yearOfBirth = yearOfBirth;
+		this.gender = gender;
+		this.diet = diet;
+		this.diabetes = diabetes;
+		this.heartDisease = heartDisease;
+		this.highBloodPressure = highBloodPressure;
+	}
 	public double getHeight() {
 		return height;
 	}
