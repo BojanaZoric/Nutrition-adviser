@@ -13,21 +13,41 @@ rule "Find meal that has all groceries"
 		 Grocerie($id: id) from $usersGroceries,
 			collectList($id)
 		 )
-		 chechMealGroceries($allGroceries,
+		 checkMealGroceriesAll($allGroceries,
 		 $usersGroceriesIDS;);
 	 then
 	 	$pm.getMeals().add($meal);
 	 	System.out.println($allGroceries.size());
 	 	System.out.println($usersGroceriesIDS.size());
-	end
+end
+
+rule "Find missing groceries from meal"
+	 agenda-group "recommendation-missing"
+	 lock-on-active true
+	 when
+		 $meal: Meal($allGroceries: getComponents(), $name: name);
+		 $gl: GrocerieList($usersGroceries: grocerieList);
+		 $mg: MissingGroceries()
+		 $usersGroceriesIDS: List() from accumulate (
+		 Grocerie($id: id) from $usersGroceries,
+			collectList($id)
+		 )
+		 
+		 $missingGroceries := List() from accumulate(
+		 Grocerie($id: id, $grocerie: this, $id not memberOf
+		$usersGroceriesIDS) from $allGroceries, collectList($grocerie))
+	 then
+	 	$mg.getGroceries().addAll($missingGroceries);
+	 	System.out.println($missingGroceries.size());
+end
 	
-	query chechMealGroceries(Set $allGroceries, List $usersGroceriesIDS)
-		 $num := Number(intValue == $usersGroceriesIDS.size()) from
-			accumulate(GrocerieQuantity($id: grocerie.id, $id memberOf $usersGroceriesIDS) from $allGroceries,
-		 init(int count = 0;),
-		 action(count += 1;),
-		 result(count)
-	 )
+query checkMealGroceriesAll(Set $allGroceries, List $usersGroceriesIDS)
+	 $num := Number(intValue == $usersGroceriesIDS.size()) from
+		accumulate(GrocerieQuantity($id: grocerie.id, $id memberOf $usersGroceriesIDS) from $allGroceries,
+	 init(int count = 0;),
+	 action(count += 1;),
+	 result(count)
+ )
 end
 
 rule "Find meal that has all groceries and more"
@@ -47,11 +67,11 @@ rule "Find meal that has all groceries and more"
 	 	$pm.getMeals().add($meal);
 	end
 	
-	query checkMealGroceries(List $allGroceries, List $usersGroceriesIDS)
-		 $num := Number(intValue >= $usersGroceriesIDS.size()) from
-			accumulate(Grocerie($id: id, $id memberOf $usersGroceriesIDS) from $allGroceries,
-		 init(int count = 0;),
-		 action(count += 1;),
-		 result(count)
-	 )
+query checkMealGroceries(List $allGroceries, List $usersGroceriesIDS)
+	 $num := Number(intValue >= $usersGroceriesIDS.size()) from
+		accumulate(Grocerie($id: id, $id memberOf $usersGroceriesIDS) from $allGroceries,
+	 init(int count = 0;),
+	 action(count += 1;),
+	 result(count)
+ )
 end

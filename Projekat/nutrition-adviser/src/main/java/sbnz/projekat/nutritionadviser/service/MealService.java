@@ -19,6 +19,7 @@ import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieList;
 import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
+import sbnz.projekat.nutritionadviser.model.MissingGroceries;
 import sbnz.projekat.nutritionadviser.model.PossibleMeals;
 import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
@@ -156,7 +157,7 @@ public class MealService {
 		kieSession.insert(grocerieList);
 		kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
 		int numOfRules = kieSession.fireAllRules();
-		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+		System.out.println("Broj aktiviranih pravila (checkIfMealHasAllGroceries): " + numOfRules);
 	
 		
 		kieSession.dispose();
@@ -173,12 +174,28 @@ public class MealService {
 		kieSession.insert(grocerieList);
 		kieSession.getAgenda().getAgendaGroup("recommendation-more").setFocus();
 		int numOfRules = kieSession.fireAllRules();
-		System.out.println("Broj aktiviranih pravila: " + numOfRules);
+		System.out.println("Broj aktiviranih pravila (checkIfMealHasAllGroceriesAndMore): " + numOfRules);
 	
 		
 		kieSession.dispose();
 
 		return pm;
+	}
+	
+	public MissingGroceries findMissingGroceriesFromMeal(GrocerieList grocerieList, Meal meal) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		MissingGroceries mg = new MissingGroceries();
+		kieSession.insert(mg);
+		kieSession.insert(meal);
+		kieSession.insert(grocerieList);
+		kieSession.getAgenda().getAgendaGroup("recommendation-missing").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (findMissingGroceriesFromMeal): " + numOfRules);
+	
+		kieSession.dispose();
+
+		return mg;
 	}
 
 }
