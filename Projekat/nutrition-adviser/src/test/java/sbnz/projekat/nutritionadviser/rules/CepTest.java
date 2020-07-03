@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 
 import sbnz.projekat.nutritionadviser.event.EatingMealEvent;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
@@ -47,16 +48,22 @@ public class CepTest {
 		meal2.getGroceries().add(new GrocerieQuantity(new Long(1), grocerie1, 100.0, meal1));
 		
 		User u = new User("usetr", "pass", "Name", "Surname", null);
+		u.setId(new Long(25));
 		Date date = new Date(System.currentTimeMillis());
 		EatingMealEvent eatingEvent = new EatingMealEvent(date, u, meal2);
 		EatingMealEvent eatingEvent2 = new EatingMealEvent(date, u, meal1);
 		EatingMealEvent eatingEvent3 = new EatingMealEvent(date, u, meal1);
 		EatingMealEvent eatingEvent4 = new EatingMealEvent(date, u, meal1);
 
-		mealService.addEatingMealEvent(eatingEvent);
-		mealService.addEatingMealEvent(eatingEvent2);
-		mealService.addEatingMealEvent(eatingEvent3);
-		boolean isAllowed = mealService.addEatingMealEvent(eatingEvent4);
+		KieSession kieSession = mealService.makeSession();
+		
+		boolean isAllowed = mealService.addEatingMealEvent(kieSession, eatingEvent);
+		assertEquals(true, isAllowed);
+		isAllowed = mealService.addEatingMealEvent(kieSession, eatingEvent2);
+		assertEquals(true, isAllowed);
+		isAllowed = mealService.addEatingMealEvent(kieSession, eatingEvent3);
+		assertEquals(false, isAllowed);
+		isAllowed = mealService.addEatingMealEvent(kieSession, eatingEvent4);
 		
 		assertEquals(false, isAllowed);
 

@@ -244,9 +244,14 @@ public class MealService {
 		return exceed;
 	}
 	
-	public boolean addEatingMealEvent(EatingMealEvent eme) {
-
+	public KieSession makeSession() {
 		KieSession kieSession = kieContainer.newKieSession("session");
+		return kieSession;
+	}
+	
+	public boolean addEatingMealEvent(KieSession kieSession , EatingMealEvent eme) {
+
+		//KieSession kieSession = kieContainer.newKieSession("session");
 		MissingGroceries mg = new MissingGroceries();
 		kieSession.insert(eme);
 		kieSession.getAgenda().getAgendaGroup("allowed-to-eat").setFocus();
@@ -254,7 +259,9 @@ public class MealService {
 		int numOfRules = kieSession.fireAllRules();
 		System.out.println("Broj aktiviranih pravila (addEatingMealEvent): " + numOfRules);
 	
-		kieSession.dispose();
+		/// Get Suspicious User Event
+		
+		//kieSession.dispose();
 
 		return eme.getUser().isAllowedToEat();
 	}
