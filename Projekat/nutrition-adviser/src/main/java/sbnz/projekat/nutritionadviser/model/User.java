@@ -22,6 +22,7 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName; 
+	private boolean allowedToEat;
 	// uloga
 	
 	
@@ -31,6 +32,7 @@ public class User {
 	
 
 	public User() {
+		this.allowedToEat = true;
 	}
 	
 	public User(String username, String password, String firstName, String lastName, UserData userData) {
@@ -40,6 +42,7 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userData = userData;
+		this.allowedToEat = true;
 	}
 
 
@@ -91,5 +94,14 @@ public class User {
 	public void setUserData(UserData userData) {
 		this.userData = userData;
 	}
+
+	public boolean isAllowedToEat() {
+		return allowedToEat;
+	}
+
+	public void setAllowedToEat(boolean allowedToEat) {
+		this.allowedToEat = allowedToEat;
+	}
+	
 	
 }

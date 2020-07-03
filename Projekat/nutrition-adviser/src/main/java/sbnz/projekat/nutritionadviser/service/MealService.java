@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import sbnz.projekat.nutritionadviser.dto.FilterDTO;
 import sbnz.projekat.nutritionadviser.dto.GroceriesQuantityDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
+import sbnz.projekat.nutritionadviser.event.EatingMealEvent;
 import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieList;
@@ -241,6 +242,21 @@ public class MealService {
 		kieSession.dispose();
 
 		return exceed;
+	}
+	
+	public boolean addEatingMealEvent(EatingMealEvent eme) {
+
+		KieSession kieSession = kieContainer.newKieSession("session");
+		MissingGroceries mg = new MissingGroceries();
+		kieSession.insert(eme);
+		kieSession.getAgenda().getAgendaGroup("allowed-to-eat").setFocus();
+
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (addEatingMealEvent): " + numOfRules);
+	
+		kieSession.dispose();
+
+		return eme.getUser().isAllowedToEat();
 	}
 
 }
