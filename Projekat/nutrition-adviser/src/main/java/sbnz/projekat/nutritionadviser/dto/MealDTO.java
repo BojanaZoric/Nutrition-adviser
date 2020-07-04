@@ -9,7 +9,6 @@ public class MealDTO {
 	private String name;
 
 	private Double preparationTime;
-	
 	private double calories;
 
 	private Double proteinAmount;

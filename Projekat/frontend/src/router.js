@@ -6,6 +6,7 @@ import homeContainer from '@/components/home/home-container'
 import mealsContainer from '@/components/meals/meals-container'
 import recepiesContainer from '@/components/recepies/recepies-container'
 import recepieDetails from '@/components/recepies/recepie-details'
+import addGrocerie from '@/components/grocerie/add-grocerie'
 
 
 Vue.use(Router)
@@ -32,6 +33,10 @@ export default new Router({
         {
             path: '/details',
             component: recepieDetails
+        },
+        {
+            path: '/add-grocerie',
+            component: addGrocerie
         }
 
     ]
