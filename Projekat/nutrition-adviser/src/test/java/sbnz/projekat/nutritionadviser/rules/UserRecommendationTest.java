@@ -34,10 +34,10 @@ public class UserRecommendationTest {
 	
 	@Test
 	public void checkMeal() {
+		// korisnik je dijabeticar, a navedeno jelo nije pogodno za dijabeticare
 		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false, false, true, true, null, null);
 		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false, true, true, true, null, null);
 		
-		Allergen a = new Allergen();
 		grocerie1.setAllergens(new HashSet<>());
 		grocerie2.setAllergens(new HashSet<>());
 		
@@ -58,10 +58,11 @@ public class UserRecommendationTest {
 	
 	@Test
 	public void checkMeal2() {
+		// jelo je pogodno za korisnika
 		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false, false, true, true, null, null);
 		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false, true, true, true, null, null);
 		
-		Allergen a = new Allergen();
+
 		grocerie1.setAllergens(new HashSet<>());
 		grocerie2.setAllergens(new HashSet<>());
 		
@@ -82,10 +83,11 @@ public class UserRecommendationTest {
 	
 	@Test
 	public void checkMeal3() {
+		// jedno jelo jeste, a drugo noje pogodno za korisnika
 		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false, false, false, false, null, null);
+		grocerie1.setDiabetes(false);
 		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false, true, true, true, null, null);
 		
-		Allergen a = new Allergen();
 		grocerie1.setAllergens(new HashSet<>());
 		grocerie2.setAllergens(new HashSet<>());
 		
@@ -95,12 +97,12 @@ public class UserRecommendationTest {
 		meal.getGroceries().add(new GrocerieQuantity(new Long(2), grocerie2, 200.0, meal));
 		
 		Meal meal2 = new Meal();
-		meal.setGroceries(new HashSet<>());
-		meal.getGroceries().add(new GrocerieQuantity(new Long(3), grocerie2, 200.0, meal));
+		meal2.setGroceries(new HashSet<>());
+		meal2.getGroceries().add(new GrocerieQuantity(new Long(3), grocerie2, 200.0, meal));
 		
 		
 		UserData data = new UserData(new Long(1), 185.0, 150.0, 1970, Gender.MALE, null, null, null, false, true, false, null);
-	
+		data.setDiabetes(true);
 	
 		List<Meal> allMeals = new ArrayList<Meal>();
 		allMeals.add(meal);
@@ -111,9 +113,12 @@ public class UserRecommendationTest {
 	
 	@Test
 	public void checkMeal4() {
-		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false, false, false, false, null, null);
-		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false, true, true, true, null, null);
 		
+		// jedno jelo nije pogodno za korisnika zbog alergije, a drugo ne odgovara njegovom nacinu ishrane
+		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false, false, false, false, null, null);
+		grocerie1.setDiet(null);
+		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false, true, true, true, null, null);
+		grocerie1.setDiet(null);
 		Allergen a = new Allergen();
 		grocerie1.setAllergens(new HashSet<>());
 		grocerie1.getAllergens().add(a);
@@ -125,8 +130,8 @@ public class UserRecommendationTest {
 		meal.getGroceries().add(new GrocerieQuantity(new Long(2), grocerie2, 200.0, meal));
 		
 		Meal meal2 = new Meal();
-		meal.setGroceries(new HashSet<>());
-		meal.getGroceries().add(new GrocerieQuantity(new Long(3), grocerie2, 200.0, meal));
+		meal2.setGroceries(new HashSet<>());
+		meal2.getGroceries().add(new GrocerieQuantity(new Long(3), grocerie2, 200.0, meal));
 		
 		
 		UserData data = new UserData(new Long(1), 185.0, 150.0, 1970, Gender.MALE, null, null, null, false, false, false, null);
@@ -137,6 +142,7 @@ public class UserRecommendationTest {
 		
 		data.setAllergies(new HashSet<>());
 		data.getAllergies().add(a);
+		data.setDiet(diet);
 	
 		List<Meal> allMeals = new ArrayList<Meal>();
 		allMeals.add(meal);

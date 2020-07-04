@@ -54,5 +54,9 @@ public class MealDetails {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
+	
+	public double getCalories() {
+		return this.meal.getCalories();
+	}
 
 }
