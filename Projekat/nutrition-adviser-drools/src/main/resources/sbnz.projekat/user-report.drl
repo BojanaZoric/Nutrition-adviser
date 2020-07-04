@@ -1,0 +1,12 @@
+package sbnz.projekat;
+import sbnz.projekat.nutritionadviser.model.*;
+import java.util.*;
+
+agenda-group "user-report"
+
+rule "Users meals on this day"
+	when 
+		$user: UserData($details: details)
+	then
+	System.out.println("Obroci ");
+end
