@@ -19,6 +19,7 @@ rule "Remove meal allergy"
 		count($a)
 	)
 	then
+		System.out.println("Alergija");
 		delete($meal); 
 end
 
@@ -33,6 +34,7 @@ rule "Remove diabetes"
 		count($groc)
 	)
 	then
+		System.out.println("Diabetes " + $groceries.size());
 		delete($meal); 
 end
 
@@ -47,6 +49,7 @@ rule "Remove heart disease"
 		count($groc)
 	)
 	then
+	System.out.println("Bolest srca");
 		delete($meal); 
 end
 
@@ -61,22 +64,23 @@ rule "Remove high blood pressure"
 		count($groc)
 	)
 	then
+	System.out.println("Visok pritisak");
 		delete($meal); 
 end
 
-/*
+
 rule "Remove diet"
 	when 
-		$user: UserData($diet: diet)
+		$user: UserData($diet: diet, diet!=null)
 		$meal: Meal($groceries: getComponents())
-		//exists($groceries)
-		forall(
-			UserData()
-			$groc: Grocerie(
-			diet contains $diet
+		$retVal: Number(intValue < $groceries.size()) from accumulate (
+		$groc: Grocerie(
+			$groc.diet == $diet
 		) from $groceries,
-		)
+		count($groc)
+	)
 	then
+		System.out.println("Tip ishrane");
 		delete($meal); 
 end
-*/
+
