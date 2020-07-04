@@ -18,6 +18,7 @@ import sbnz.projekat.nutritionadviser.dto.MealDTO;
 import sbnz.projekat.nutritionadviser.event.EatingMealEvent;
 import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
+import sbnz.projekat.nutritionadviser.model.GrocerieIdList;
 import sbnz.projekat.nutritionadviser.model.GrocerieList;
 import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
@@ -135,8 +136,20 @@ public class MealService {
 		return pm;
 	}
 	
-	public PossibleMeals getMealsHasAllGroceries(GrocerieList grocerieList) {
+	public PossibleMeals getMealsHasAllGroceries(GrocerieIdList grocerieIdList) {
 		PossibleMeals pm = new PossibleMeals();
+		
+		
+		GrocerieList grocerieList = new GrocerieList();
+		grocerieList.setGrocerieList(new ArrayList<>());
+		
+		for (Long id : grocerieIdList.getGrocerieList()) {
+			Optional<Grocerie> groc = this.grocerieRepository.findById(id);
+			
+			if(groc.isPresent()) {
+				grocerieList.getGrocerieList().add(groc.get());
+			}
+		}
 		
 		List<Meal> allMeals = this.mealRepository.findAll();
 		
@@ -147,8 +160,19 @@ public class MealService {
 		return pm;
 	}
 	
-	public PossibleMeals getMealsHasAllGroceriesAndMore(GrocerieList grocerieList) {
+	public PossibleMeals getMealsHasAllGroceriesAndMore(GrocerieIdList grocerieIdList) {
 		PossibleMeals pm = new PossibleMeals();
+		
+		GrocerieList grocerieList = new GrocerieList();
+		grocerieList.setGrocerieList(new ArrayList<>());
+		
+		for (Long id : grocerieIdList.getGrocerieList()) {
+			Optional<Grocerie> groc = this.grocerieRepository.findById(id);
+			
+			if(groc.isPresent()) {
+				grocerieList.getGrocerieList().add(groc.get());
+			}
+		}
 		
 		List<Meal> allMeals = this.mealRepository.findAll();
 		
@@ -159,8 +183,19 @@ public class MealService {
 		return pm;
 	}
 	
-	public MissingGroceries getMissingGroceries(GrocerieList grocerieList) {
+	public MissingGroceries getMissingGroceries(GrocerieIdList grocerieIdList) {
 		MissingGroceries mg = new MissingGroceries();
+		
+		GrocerieList grocerieList = new GrocerieList();
+		grocerieList.setGrocerieList(new ArrayList<>());
+		
+		for (Long id : grocerieIdList.getGrocerieList()) {
+			Optional<Grocerie> groc = this.grocerieRepository.findById(id);
+			
+			if(groc.isPresent()) {
+				grocerieList.getGrocerieList().add(groc.get());
+			}
+		}
 		
 		List<Meal> allMeals = this.mealRepository.findAll();
 		

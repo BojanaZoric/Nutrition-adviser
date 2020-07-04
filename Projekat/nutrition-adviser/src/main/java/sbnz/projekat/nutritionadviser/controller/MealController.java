@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sbnz.projekat.nutritionadviser.dto.FilterDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
 import sbnz.projekat.nutritionadviser.model.Alarm;
-import sbnz.projekat.nutritionadviser.model.GrocerieList;
+import sbnz.projekat.nutritionadviser.model.GrocerieIdList;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.MissingGroceries;
 import sbnz.projekat.nutritionadviser.model.PossibleMeals;
@@ -76,7 +76,7 @@ public class MealController {
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<PossibleMeals> mealsHasAllGroceries(@RequestBody GrocerieList list) {
+	public ResponseEntity<PossibleMeals> mealsHasAllGroceries(@RequestBody GrocerieIdList list) {
 		PossibleMeals m = this.mealService.getMealsHasAllGroceries(list);
 		return new ResponseEntity<PossibleMeals>(m, HttpStatus.OK);
 	}
@@ -87,7 +87,7 @@ public class MealController {
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<PossibleMeals> mealsHasAllGroceriesAndMore(@RequestBody GrocerieList list) {
+	public ResponseEntity<PossibleMeals> mealsHasAllGroceriesAndMore(@RequestBody GrocerieIdList list) {
 		PossibleMeals m = this.mealService.getMealsHasAllGroceriesAndMore(list);
 		return new ResponseEntity<PossibleMeals>(m, HttpStatus.OK);
 	}
@@ -97,7 +97,7 @@ public class MealController {
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<MissingGroceries> missingGroceriew(@RequestBody GrocerieList list) {
+	public ResponseEntity<MissingGroceries> missingGroceriew(@RequestBody GrocerieIdList list) {
 		MissingGroceries m = this.mealService.getMissingGroceries(list);
 		return new ResponseEntity<MissingGroceries>(m, HttpStatus.OK);
 	}
