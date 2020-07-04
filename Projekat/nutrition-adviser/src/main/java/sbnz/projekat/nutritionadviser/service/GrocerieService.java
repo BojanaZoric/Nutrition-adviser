@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,15 +9,25 @@ import org.springframework.stereotype.Service;
 
 import sbnz.projekat.nutritionadviser.converter.GrocerieDTOConverter;
 import sbnz.projekat.nutritionadviser.dto.GrocerieDTO;
+import sbnz.projekat.nutritionadviser.model.Allergen;
+import sbnz.projekat.nutritionadviser.model.Diet;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.exception.BadRequest;
 import sbnz.projekat.nutritionadviser.model.exception.EntityNotExist;
+import sbnz.projekat.nutritionadviser.repository.AllergenRepository;
+import sbnz.projekat.nutritionadviser.repository.DietRepository;
 import sbnz.projekat.nutritionadviser.repository.GrocerieRepository;
 
 @Service
 public class GrocerieService {
 
 	private final GrocerieRepository grocerieRepository;
+	
+	@Autowired
+	private AllergenRepository allergenRepository;
+	
+	@Autowired
+	private DietRepository dietRepository;
 
 	@Autowired
 	public GrocerieService(GrocerieRepository grocerieRepository) {
@@ -40,6 +51,26 @@ public class GrocerieService {
 	public Grocerie save(GrocerieDTO dto) {
 
 		Grocerie grocerie = GrocerieDTOConverter.DtoToGrocerie(dto);
+		grocerie.setAllergens(new HashSet<>());
+		if(dto.getAllergens() != null) {
+			for (Long id : dto.getAllergens()) {
+				Optional<Allergen> a = this.allergenRepository.findById(id);
+				
+				if(a.isPresent()) {
+					grocerie.getAllergens().add(a.get());
+				}
+			}
+		}
+		
+		if(dto.getDiet() != null) {
+	
+				Optional<Diet> d = this.dietRepository.findById(dto.getDiet());
+				
+				if(d.isPresent()) {
+					grocerie.setDiet(d.get());
+				}
+		
+		}
 
 		if (grocerie.getId() != null) {
 			grocerie.setId(null);
