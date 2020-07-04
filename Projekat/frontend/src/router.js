@@ -7,6 +7,8 @@ import mealsContainer from '@/components/meals/meals-container'
 import recepiesContainer from '@/components/recepies/recepies-container'
 import recepieDetails from '@/components/recepies/recepie-details'
 import addGrocerie from '@/components/grocerie/add-grocerie'
+import addMeal from '@/components/meals/add-meal'
+import findMeal from '@/components/meals/find-meal'
 
 
 Vue.use(Router)
@@ -37,6 +39,14 @@ export default new Router({
         {
             path: '/add-grocerie',
             component: addGrocerie
+        },
+        {
+            path: '/add-meal',
+            component: addMeal
+        },
+        {
+            path: '/find-meal',
+            component: findMeal
         }
 
     ]

@@ -9,14 +9,25 @@
          <li class="nav-item active">
            <h5 class="nav-link"  v-on:click="redirect">Početna<span class="sr-only">(current)</span></h5>
          </li>
-         <li class="nav-item">
-           <h5 class="nav-link"  v-on:click="redirectRecepies">Recepti</h5>
-         </li>
+
+         <li class="nav-item dropdown">
+             <h5 class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Recepti
+             </h5>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <h5 class="nav-link"  v-on:click="redirectRecepies">Svi recepti</h5>
+                <h5 class="nav-link"  v-on:click="redirectFindMeal">Pronadji obrok</h5>
+             </div>
+           </li>
+
          <li class="nav-item">
            <h5 class="nav-link"  v-on:click="redirectMeals">Moji obroci</h5>
          </li>
          <li class="nav-item">
-           <h5 class="nav-link"  v-on:click="addGrocerie">Add grocerie</h5>
+           <h5 class="nav-link"  v-on:click="addGrocerie">Dodaj namirnicu</h5>
+         </li>
+         <li class="nav-item">
+           <h5 class="nav-link"  v-on:click="addMeal">Dodaj obrok</h5>
          </li>
           <li class="nav-item dropdown">
              <h5 class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,8 +65,15 @@ export default {
     redirectProfile() {
             this.$router.push("/edit-profile")
           },
+    redirectFindMeal() {
+      this.$router.push("/find-meal")
+    },
     addGrocerie() {
       this.$router.push("/add-grocerie")
+    },
+
+    addMeal() {
+      this.$router.push("/add-meal")
     }
 
   }
