@@ -1,0 +1,82 @@
+package sbnz.projekat;
+import sbnz.projekat.nutritionadviser.model.*;
+import java.util.*;
+
+agenda-group "filter-and-recommend"
+
+query "get meals"
+	$meal: Meal()
+end
+
+rule "Remove meal allergy"
+	when 
+		$user: UserData($allergies: allergies)
+		$meal: Meal($alls: getAllergens())
+		$retVal: Number(intValue > 0) from accumulate (
+		$a: Allergen(
+			$allergies contains this
+		) from $alls,
+		count($a)
+	)
+	then
+		delete($meal); 
+end
+
+rule "Remove diabetes"
+	when 
+		$user: UserData(diabetes==true)
+		$meal: Meal($groceries: getComponents())
+		$retVal: Number(intValue > 0) from accumulate (
+		$groc: Grocerie(
+			diabetes == false
+		) from $groceries,
+		count($groc)
+	)
+	then
+		delete($meal); 
+end
+
+rule "Remove heart disease"
+	when 
+		$user: UserData(heartDisease==true)
+		$meal: Meal($groceries: getComponents())
+		$retVal: Number(intValue > 0) from accumulate (
+		$groc: Grocerie(
+			heartDisease == false
+		) from $groceries,
+		count($groc)
+	)
+	then
+		delete($meal); 
+end
+
+rule "Remove high blood pressure"
+	when 
+		$user: UserData(highBloodPressure==true)
+		$meal: Meal($groceries: getComponents())
+		$retVal: Number(intValue > 0) from accumulate (
+		$groc: Grocerie(
+			highBloodPressure == false
+		) from $groceries,
+		count($groc)
+	)
+	then
+		delete($meal); 
+end
+
+/*
+rule "Remove diet"
+	when 
+		$user: UserData($diet: diet)
+		$meal: Meal($groceries: getComponents())
+		//exists($groceries)
+		forall(
+			UserData()
+			$groc: Grocerie(
+			diet contains $diet
+		) from $groceries,
+		)
+	then
+		delete($meal); 
+end
+*/

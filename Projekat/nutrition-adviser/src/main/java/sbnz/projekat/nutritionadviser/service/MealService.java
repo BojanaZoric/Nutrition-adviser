@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -266,4 +267,33 @@ public class MealService {
 		return eme.getUser().isAllowedToEat();
 	}
 
+	
+	public List<Meal> recommendForUser(List<Meal> allMeals, UserData data){
+		
+		List<Meal> meals = new ArrayList<Meal>();
+		
+		KieSession kieSession = kieContainer.newKieSession("session");
+		
+		kieSession.insert(data);
+		for (Meal meal : allMeals) {
+			kieSession.insert(meal);
+		}
+		
+		kieSession.getAgenda().getAgendaGroup("filter-and-recommend").setFocus();
+
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (recommendForUser): " + numOfRules);
+	
+		QueryResults results = kieSession.getQueryResults("get meals");
+
+		for (QueryResultsRow queryResultsRow : results) {
+			Meal meal = (Meal) queryResultsRow.get("$meal");
+			
+			meals.add(meal);
+		}
+		
+		kieSession.dispose();
+		
+		return meals;
+	}
 }

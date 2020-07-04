@@ -47,20 +47,4 @@ rule "User has allergie to meal"
 end
 
 
-/* NE RADI
-rule "User has allergie to meal"
-	when 
-		$user: UserData($allergies: allergies)
-		$meal: Meal($alls: getAllergens()) and
-		accumulate (
-			Grocerie($g: this, $allergens: allergens) from $meal.getComponents() and
-			List(size>0) from collect (
-				Allergen($allergies contains this) from $allergens
-			)
-		)
-	then
-	System.out.println("Alergican na obrok " + $list.size());
-	insert(new Alarm(null, $meal, "Korisnik je alergican na neki od sastojaka obroka"));
-end*/
-
 

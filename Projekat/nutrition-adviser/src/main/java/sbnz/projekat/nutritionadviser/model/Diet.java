@@ -19,6 +19,9 @@ public class Diet {
 	
 	@OneToMany(mappedBy = "diet", cascade = CascadeType.ALL)
 	private Set<UserData> userData;
+	
+	@OneToMany(mappedBy = "diet", cascade = CascadeType.ALL)
+	private Set<Grocerie> groceries;
 
 	public Long getId() {
 		return id;
