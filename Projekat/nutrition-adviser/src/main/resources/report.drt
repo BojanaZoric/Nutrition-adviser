@@ -1,6 +1,5 @@
 template header
 userId
-nutritionId
 days
 number
 
@@ -19,7 +18,6 @@ no-loop true
 agenda-group "report"
 when
     $user: UserData(userId() == @{userId}, $data: getDetails())
-    $nutrition: User(id == @{nutritionId})
     $retVal: Number(doubleValue > 0) from accumulate (
 		$d: MealDetails(
 			$kcal: getCalories(), date.isBefore(LocalDate.now()) || date.isEqual(LocalDate.now()),
