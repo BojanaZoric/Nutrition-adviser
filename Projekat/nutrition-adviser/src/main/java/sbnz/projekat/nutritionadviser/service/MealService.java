@@ -365,6 +365,7 @@ public class MealService {
 		
 		kieSession.insert(data);
 		for (Meal meal : allMeals) {
+			System.out.println(meal.getComponents().size());
 			kieSession.insert(meal);
 		}
 		

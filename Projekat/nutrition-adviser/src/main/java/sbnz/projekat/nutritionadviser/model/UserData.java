@@ -79,6 +79,10 @@ public class UserData {
 		this.user = user;
 	}
 	
+	public Long userId() {
+		return this.user.getId();
+	}
+	
 	public Set<MealDetails> getDetails() {
 		return details;
 	}

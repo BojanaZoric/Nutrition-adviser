@@ -1,5 +1,7 @@
 package sbnz.projekat.nutritionadviser.dto;
 
+import java.util.List;
+
 public class GrocerieDTO {
 
 	private long id;
@@ -8,6 +10,15 @@ public class GrocerieDTO {
 	private double proteinAmount;
 	private double carbohydrateAmount;
 	private boolean glutenFree;
+	
+	
+	private boolean diabetes; // pogodno za dijabeticare
+	private boolean heartDisease; // pogodno za srcane bolesnike
+	private boolean highBloodPressure; // pogodno za ljude sa visokim pritiskom
+	
+	private long diet;
+	
+	private List<Long> allergens;
 
 	public GrocerieDTO() {
 	}
@@ -58,5 +69,45 @@ public class GrocerieDTO {
 
 	public void setCarbohydrateAmount(double carbohydrateAmount) {
 		this.carbohydrateAmount = carbohydrateAmount;
+	}
+
+	public Boolean getDiabetes() {
+		return diabetes;
+	}
+
+	public void setDiabetes(Boolean diabetes) {
+		this.diabetes = diabetes;
+	}
+
+	public Boolean getHeartDisease() {
+		return heartDisease;
+	}
+
+	public void setHeartDisease(Boolean heartDisease) {
+		this.heartDisease = heartDisease;
+	}
+
+	public Boolean getHighBloodPressure() {
+		return highBloodPressure;
+	}
+
+	public void setHighBloodPressure(Boolean highBloodPressure) {
+		this.highBloodPressure = highBloodPressure;
+	}
+
+	public Long getDiet() {
+		return diet;
+	}
+
+	public void setDiet(Long diet) {
+		this.diet = diet;
+	}
+
+	public List<Long> getAllergens() {
+		return allergens;
+	}
+
+	public void setAllergens(List<Long> allergens) {
+		this.allergens = allergens;
 	}
 }
