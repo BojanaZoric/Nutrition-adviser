@@ -26,9 +26,9 @@ INSERT INTO meal (id, name, calories, meal_type_id) VALUES (1, "cake", 500, 4);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (1, 1, 2, 1);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (2, 5, 1, 1);
 
-
-INSERT INTO users (id, username, password, first_name, last_name) VALUES (1, "user", "user", "User", "User");
-INSERT INTO users (id, username, password, first_name, last_name) VALUES (2, "user2", "user2", "User2", "User2");
+--passwordi 123
+INSERT INTO users (id, username, password, first_name, last_name, allowed_to_eat) VALUES (1, "user", "$2y$12$jsNdy6BLYxS80nLoUuMwDuIh9lyo8dgr8MRHLPleUT8TopbBHXsIq", "User", "User", true);
+INSERT INTO users (id, username, password, first_name, last_name, allowed_to_eat) VALUES (2, "user2", "$2y$12$jsNdy6BLYxS80nLoUuMwDuIh9lyo8dgr8MRHLPleUT8TopbBHXsIq", "User2", "User2", true);
 
 INSERT INTO user_data(id, height, weight, year_of_birth, gender, diet_id, diabetes, heart_disease, high_blood_pressure) VALUES (1,190, 150, 1975, 0, null, false, false, true);
 
