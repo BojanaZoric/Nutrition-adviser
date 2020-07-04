@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService{
 
 	private final UserDataRepository userDataRepository;
 	private final UserRepository userRepository;
@@ -31,6 +31,12 @@ public class UserService {
 		this.userDataRepository = userDataRepository;
 		this.userRepository = userRepository;
 		this.kieContainer = kieContainer;
+	}
+	
+	public User findByUsername(String username) {
+		User user = this.userRepository.findOneByUsername(username);
+		
+		return user;
 	}
 
 	public UserData save(UserDetailsDTO details, Long userId) {

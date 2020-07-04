@@ -6,4 +6,6 @@ import sbnz.projekat.nutritionadviser.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findOneByUsername(String email);
+
 }

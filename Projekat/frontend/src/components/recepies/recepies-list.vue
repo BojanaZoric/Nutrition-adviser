@@ -45,13 +45,14 @@
 
 export default {
   name: 'recepiesList',
+  props: ['meals'],
   data () {
     return {
 
     }
   },
   mounted(){
-
+    console.log(this.meals);
   }
   ,
   methods: {

@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,11 +9,13 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import sbnz.projekat.nutritionadviser.dto.FilterDTO;
 import sbnz.projekat.nutritionadviser.dto.GroceriesQuantityDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
+import sbnz.projekat.nutritionadviser.event.EatingMealEvent;
 import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieList;
@@ -20,24 +23,28 @@ import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.MissingGroceries;
 import sbnz.projekat.nutritionadviser.model.PossibleMeals;
+import sbnz.projekat.nutritionadviser.model.User;
 import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
 import sbnz.projekat.nutritionadviser.repository.GrocerieRepository;
 import sbnz.projekat.nutritionadviser.repository.MealRepository;
+import sbnz.projekat.nutritionadviser.repository.UserRepository;
 
 @Service
 public class MealService {
 
 	private final MealRepository mealRepository;
+	private final UserRepository userRepository;
 	private final GrocerieRepository grocerieRepository;
 	private final GrocerieQuantityRepository grocerieQuantityRepository;
 	private final KieContainer kieContainer;
 
 	@Autowired
-	public MealService(MealRepository mealRepository, GrocerieRepository grocerieRepository,
+	public MealService(MealRepository mealRepository, UserRepository userRepository, GrocerieRepository grocerieRepository,
 			GrocerieQuantityRepository grocerieQuantityRepository, KieContainer kieContainer) {
 		this.kieContainer = kieContainer;
 		this.mealRepository = mealRepository;
+		this.userRepository = userRepository;
 		this.grocerieRepository = grocerieRepository;
 		this.grocerieQuantityRepository = grocerieQuantityRepository;
 	}
@@ -86,7 +93,89 @@ public class MealService {
 		return saved;
 	}
 	
-	public Alarm userGrocerieAllergie(UserData data, Grocerie grocerie) {
+	// da li je pogodno za moje zdravstveno stanje?
+	public List<Alarm> canIEatThisMeal(Long mealId){
+		
+		Optional<Meal> meal = mealRepository.findById(mealId);
+		
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findOneByUsername(username);
+		
+		if(meal.isPresent() && username != null) {
+		
+			return this.userMealAllergie(user.getUserData(), meal.get());
+		}
+		
+		return null;
+	}
+	
+	// da li je pogodno za moje zdravstveno stanje?
+	public List<Alarm> canIEatThisGrocerie(Long grocerieId){
+		
+		Optional<Grocerie> grocerie = grocerieRepository.findById(grocerieId);
+		
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findOneByUsername(username);
+		
+		if(grocerie.isPresent() && username != null) {
+		
+			return this.userGrocerieAllergie(user.getUserData(), grocerie.get());
+		}
+		
+		return null;
+	}
+	
+	// filter
+	public PossibleMeals getFilteredMeals(FilterDTO dto) {
+		
+		List<Meal> meals = this.mealRepository.findAll();
+		
+		PossibleMeals pm = this.filterMeals(meals, dto);
+		
+		return pm;
+	}
+	
+	public PossibleMeals getMealsHasAllGroceries(GrocerieList grocerieList) {
+		PossibleMeals pm = new PossibleMeals();
+		
+		List<Meal> allMeals = this.mealRepository.findAll();
+		
+		for (Meal meal : allMeals) {
+			pm = this.checkIfMealHasAllGroceries(grocerieList, meal);
+		}
+		
+		return pm;
+	}
+	
+	public PossibleMeals getMealsHasAllGroceriesAndMore(GrocerieList grocerieList) {
+		PossibleMeals pm = new PossibleMeals();
+		
+		List<Meal> allMeals = this.mealRepository.findAll();
+		
+		for (Meal meal : allMeals) {
+			pm = this.checkIfMealHasAllGroceriesAndMore(grocerieList, meal);
+		}
+		
+		return pm;
+	}
+	
+	public MissingGroceries getMissingGroceries(GrocerieList grocerieList) {
+		MissingGroceries mg = new MissingGroceries();
+		
+		List<Meal> allMeals = this.mealRepository.findAll();
+		
+		for (Meal meal : allMeals) {
+			mg = this.findMissingGroceriesFromMeal(grocerieList, meal);
+		}
+		
+		return mg;
+	}
+	
+	
+	// ------- pravila -------
+	
+	
+	public List<Alarm> userGrocerieAllergie(UserData data, Grocerie grocerie) {
 		KieSession kieSession = kieContainer.newKieSession("session");
 		kieSession.insert(grocerie);
 		kieSession.insert(data);
@@ -96,20 +185,21 @@ public class MealService {
 		
 		QueryResults results = kieSession.getQueryResults("Get alarm");
 
+		ArrayList<Alarm> alarms = new ArrayList<>();
 		Alarm alarm = null;
 		for (QueryResultsRow queryResultsRow : results) {
 			alarm = (Alarm) queryResultsRow.get("$alarm");
-			
+			alarms.add(alarm);
 			System.out.println("Alarm " + alarm.getMessage());
 		}
 		
 		
 		kieSession.dispose();
 		
-		return alarm;
+		return alarms;
 	}
 	
-	public Alarm userMealAllergie(UserData data, Meal meal) {
+	public List<Alarm> userMealAllergie(UserData data, Meal meal) {
 		KieSession kieSession = kieContainer.newKieSession("session");
 		kieSession.insert(meal);
 		kieSession.insert(data);
@@ -119,16 +209,17 @@ public class MealService {
 		
 		QueryResults results = kieSession.getQueryResults("Get alarm");
 
+		ArrayList<Alarm> alarms = new ArrayList<>();
 		Alarm alarm = null;
 		for (QueryResultsRow queryResultsRow : results) {
 			alarm = (Alarm) queryResultsRow.get("$alarm");
-			
+			alarms.add(alarm);
 			System.out.println("Alarm " + alarm.getMessage());
 		}
 		
 		kieSession.dispose();
 		
-		return alarm;
+		return alarms;
 	}
 
 	public Meal calculateCalories(Meal meal) {
@@ -242,5 +333,56 @@ public class MealService {
 
 		return exceed;
 	}
+	
+	public KieSession makeSession() {
+		KieSession kieSession = kieContainer.newKieSession("session");
+		return kieSession;
+	}
+	
+	public boolean addEatingMealEvent(KieSession kieSession , EatingMealEvent eme) {
 
+		//KieSession kieSession = kieContainer.newKieSession("session");
+		MissingGroceries mg = new MissingGroceries();
+		kieSession.insert(eme);
+		kieSession.getAgenda().getAgendaGroup("allowed-to-eat").setFocus();
+
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (addEatingMealEvent): " + numOfRules);
+	
+		/// Get Suspicious User Event
+		
+		//kieSession.dispose();
+
+		return eme.getUser().isAllowedToEat();
+	}
+
+	
+	public List<Meal> recommendForUser(List<Meal> allMeals, UserData data){
+		
+		List<Meal> meals = new ArrayList<Meal>();
+		
+		KieSession kieSession = kieContainer.newKieSession("session");
+		
+		kieSession.insert(data);
+		for (Meal meal : allMeals) {
+			kieSession.insert(meal);
+		}
+		
+		kieSession.getAgenda().getAgendaGroup("filter-and-recommend").setFocus();
+
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (recommendForUser): " + numOfRules);
+	
+		QueryResults results = kieSession.getQueryResults("get meals");
+
+		for (QueryResultsRow queryResultsRow : results) {
+			Meal meal = (Meal) queryResultsRow.get("$meal");
+			
+			meals.add(meal);
+		}
+		
+		kieSession.dispose();
+		
+		return meals;
+	}
 }

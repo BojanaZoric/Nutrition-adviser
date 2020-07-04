@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class UserData {
 
@@ -180,6 +182,7 @@ public class UserData {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public User getUser() {
 		return user;
 	}
