@@ -1,7 +1,6 @@
 package sbnz.projekat.nutritionadviser.rules;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashSet;
@@ -10,9 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieServices;
-import org.kie.api.cdi.KSession;
 import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.rule.QueryResults;
 
 import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Allergen;
@@ -151,6 +148,51 @@ public class MealRulesTest {
 		List<Alarm> alarm = mealService.userMealAllergie(data, meal);
 		
 		assertEquals(0, alarm.size());
+	}
+	
+	
+	@Test
+	public void userMealHasAllergieDiabetesAndHeartDisease() {
+		// testiramo da li se javljaju sva tri upozorenja
+		Allergen a = new Allergen();
+		a.setId(new Long(5));
+		
+		UserData data = new UserData();
+		data.setAllergies(new HashSet<>());
+		data.getAllergies().add(a);
+		data.setDiabetes(true);
+		data.setHeartDisease(true);
+		data.setHighBloodPressure(false);
+		
+		Grocerie grocerie = new Grocerie();
+		grocerie.setHeartDisease(false);
+		grocerie.setHighBloodPressure(true);
+		grocerie.setDiabetes(true);
+		grocerie.setAllergens(new HashSet<>());
+		grocerie.getAllergens().add(a);
+		grocerie.setCalories(100);
+		grocerie.setCarbohydrateAmount(50.0);
+		grocerie.setProteinAmount(10.0);
+		
+		Grocerie grocerie2 = new Grocerie();
+		grocerie2.setAllergens(new HashSet<>());
+		grocerie2.setDiabetes(false);
+		grocerie2.setHeartDisease(true);
+		grocerie2.setHighBloodPressure(true);
+		grocerie2.setCalories(100);
+		grocerie2.setCarbohydrateAmount(50.0);
+		grocerie2.setProteinAmount(10.0);
+		
+		Meal meal = new Meal();
+		meal.setName("Pizza");
+		
+		meal.setGroceries(new HashSet<>());
+		
+		meal.getGroceries().add(new GrocerieQuantity(10l, grocerie, 200.0, meal));
+		meal.getGroceries().add(new GrocerieQuantity(11l, grocerie2, 200.0, meal));
+		List<Alarm> alarm = mealService.userMealAllergie(data, meal);
+		
+		assertEquals(3, alarm.size());
 	}
 
 }

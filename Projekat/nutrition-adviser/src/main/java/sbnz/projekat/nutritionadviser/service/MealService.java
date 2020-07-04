@@ -28,7 +28,6 @@ import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
 import sbnz.projekat.nutritionadviser.repository.GrocerieRepository;
 import sbnz.projekat.nutritionadviser.repository.MealRepository;
-import sbnz.projekat.nutritionadviser.repository.UserDataRepository;
 import sbnz.projekat.nutritionadviser.repository.UserRepository;
 
 @Service
@@ -125,6 +124,55 @@ public class MealService {
 		
 		return null;
 	}
+	
+	// filter
+	public PossibleMeals getFilteredMeals(FilterDTO dto) {
+		
+		List<Meal> meals = this.mealRepository.findAll();
+		
+		PossibleMeals pm = this.filterMeals(meals, dto);
+		
+		return pm;
+	}
+	
+	public PossibleMeals getMealsHasAllGroceries(GrocerieList grocerieList) {
+		PossibleMeals pm = new PossibleMeals();
+		
+		List<Meal> allMeals = this.mealRepository.findAll();
+		
+		for (Meal meal : allMeals) {
+			pm = this.checkIfMealHasAllGroceries(grocerieList, meal);
+		}
+		
+		return pm;
+	}
+	
+	public PossibleMeals getMealsHasAllGroceriesAndMore(GrocerieList grocerieList) {
+		PossibleMeals pm = new PossibleMeals();
+		
+		List<Meal> allMeals = this.mealRepository.findAll();
+		
+		for (Meal meal : allMeals) {
+			pm = this.checkIfMealHasAllGroceriesAndMore(grocerieList, meal);
+		}
+		
+		return pm;
+	}
+	
+	public MissingGroceries getMissingGroceries(GrocerieList grocerieList) {
+		MissingGroceries mg = new MissingGroceries();
+		
+		List<Meal> allMeals = this.mealRepository.findAll();
+		
+		for (Meal meal : allMeals) {
+			mg = this.findMissingGroceriesFromMeal(grocerieList, meal);
+		}
+		
+		return mg;
+	}
+	
+	
+	// ------- pravila -------
 	
 	
 	public List<Alarm> userGrocerieAllergie(UserData data, Grocerie grocerie) {

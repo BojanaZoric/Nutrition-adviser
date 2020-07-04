@@ -7,7 +7,7 @@
 
     </div>
      <div class="col-md-9">
-        <h2>Hard Cider-Braised Pork </h2>
+        <h2>{{meal.name}}</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. <br />
          <br />
          <br />
@@ -38,16 +38,24 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'recepieDetails',
   data () {
     return {
-
+      meal: {}
     }
   },
   mounted(){
-
+    axios.get(`http://localhost:8081/meal/1`)
+    .then(response => {
+      this.meal = response.data;
+      console.log(this.meal)
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
   }
   ,
   methods: {

@@ -46,5 +46,50 @@ rule "User has allergie to meal"
 	insert(new Alarm(null, $meal, "Korisnik je alergican na neki od sastojaka obroka"));
 end
 
+rule "Has diabetes"
+	when 
+		$user: UserData(diabetes==true)
+		$meal: Meal($groceries: getComponents())
+		$retVal: Number(intValue > 0) from accumulate (
+		$groc: Grocerie(
+			diabetes == false
+		) from $groceries,
+		count($groc)
+	)
+	then
+		System.out.println("Diabetes");
+		insert(new Alarm(null, $meal, "Ovaj obrok sadrzi namirnice koje nisu pogodne za dijabeticare"));
+end
 
+
+rule "Has heart disease"
+	when 
+		$user: UserData(heartDisease==true)
+		$meal: Meal($groceries: getComponents())
+		$retVal: Number(intValue > 0) from accumulate (
+		$groc: Grocerie(
+			heartDisease == false
+		) from $groceries,
+		count($groc)
+	)
+	then
+		System.out.println("Bolest srca");
+		insert(new Alarm(null, $meal, "Ovaj obrok sadrzi namirnice koje nisu pogodne za ljude sa bolestima srca"));
+
+end
+
+rule "Has high blood pressure"
+	when 
+		$user: UserData(highBloodPressure==true)
+		$meal: Meal($groceries: getComponents())
+		$retVal: Number(intValue > 0) from accumulate (
+		$groc: Grocerie(
+			highBloodPressure == false
+		) from $groceries,
+		count($groc)
+	)
+	then
+		insert(new Alarm(null, $meal, "Ovaj obrok sadrzi namirnice koje nisu pogodne za ljude sa visokim krvnim pritiskom"));
+ 
+end
 

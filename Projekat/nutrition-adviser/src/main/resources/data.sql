@@ -28,14 +28,14 @@ INSERT INTO grocerie_allergen(grocerie_id, allergen_id) VALUES (3, 2);
 INSERT INTO grocerie_allergen(grocerie_id, allergen_id) VALUES (5, 1);
 
 -- cake (200g sugar, 100g chocolate)
-INSERT INTO meal (id, name, calories, meal_type_id) VALUES (1, "cake", 500, 4);
+INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (1, "Rich chocolate cake", 500, 4,15);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (1, 1, 200, 1);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (2, 5, 100, 1);
 
--- cake (200g spagetti, 100g cheese)
-INSERT INTO meal (id, name, calories, meal_type_id) VALUES (2, "pasta", 500, 4);
-INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (1, 3, 200, 1);
-INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (2, 6, 100, 1);
+-- pasta (200g spagetti, 100g cheese)
+INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (2, "pasta", 400, 4, 7);
+INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (3, 3, 200, 1);
+INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (4, 6, 100, 1);
 
 --passwordi 123
 INSERT INTO users (id, username, password, first_name, last_name, allowed_to_eat) VALUES (1, "user", "$2y$12$jsNdy6BLYxS80nLoUuMwDuIh9lyo8dgr8MRHLPleUT8TopbBHXsIq", "User", "User", true);
