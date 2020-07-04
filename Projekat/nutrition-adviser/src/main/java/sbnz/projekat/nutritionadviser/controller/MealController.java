@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
+import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.service.MealService;
 
@@ -52,6 +53,24 @@ public class MealController {
 	public ResponseEntity<Meal> getOne(@PathVariable("id") Long id){
 		
 		return new ResponseEntity<Meal>(mealService.getOne(id), HttpStatus.OK);
+	}
+	
+	@GetMapping(
+			value = "/checkMeal/{mealId}",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<List<Alarm>> canIEatThisMeal(@PathVariable("mealId") Long mealId){
+		
+		return new ResponseEntity<List<Alarm>>(mealService.canIEatThisMeal(mealId), HttpStatus.OK);
+	}
+	
+	@GetMapping(
+			value = "/checkGrocerie/{grocerieId}",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<List<Alarm>> canIEatThisGrocerie(@PathVariable("grocerieId") Long grocerieId){
+		
+		return new ResponseEntity<List<Alarm>>(mealService.canIEatThisGrocerie(grocerieId), HttpStatus.OK);
 	}
 	
 }

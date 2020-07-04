@@ -89,7 +89,6 @@ public class User implements UserDetails{
 		this.id = id;
 	}
 
-	@JsonIgnore
 	public UserData getUserData() {
 		return userData;
 	}

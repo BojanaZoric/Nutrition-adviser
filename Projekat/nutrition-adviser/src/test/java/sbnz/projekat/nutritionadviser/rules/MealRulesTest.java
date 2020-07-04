@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,13 +31,13 @@ public class MealRulesTest {
 		KieServices ks = KieServices.Factory.get();
 		KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("sbnz.projekat", "nutrition-adviser-drools", "0.0.1-SNAPSHOT"));
 		
-		mealService = new MealService(null, null, null, kContainer);
+		mealService = new MealService(null, null, null, null, kContainer);
 	}
 	
 	
 	@Test
 	public void calculateCalories() {
-		
+		// testiramo da li se dobro vrsi racunanje kalorija, broja proteina i ugljenih hidrata na osnovu sastojaka i njihove kolicine
 		Grocerie grocerie1 = new Grocerie(new Long(1), "sugar", 500, 5.0, 40.0, false);
 		Grocerie grocerie2 = new Grocerie(new Long(2), "milk", 50, 15.0, 10.0, false);
 		Meal meal = new Meal();
@@ -57,7 +58,7 @@ public class MealRulesTest {
 	
 	@Test
 	public void userGroceriHasAllergie() {
-		
+		// testiramo da li se javlja upozorenje korisniku da je alergican na namirnicu
 		Allergen a = new Allergen();
 		a.setId(new Long(5));
 		
@@ -69,14 +70,14 @@ public class MealRulesTest {
 		grocerie.setAllergens(new HashSet<>());
 		grocerie.getAllergens().add(a);
 		
-		Alarm alarm = mealService.userGrocerieAllergie(data, grocerie);
+		List<Alarm> alarm = mealService.userGrocerieAllergie(data, grocerie);
 		
-		assertNotNull(alarm);
+		assertEquals(1, alarm.size());
 	}
 	
 	@Test
 	public void userGroceriNotHasAllergie() {
-		
+		// testiramo da li ce se javiti upozorenje korisniku koji NIJE alergican (ne treba da se javi)
 		Allergen a = new Allergen();
 		Allergen b = new Allergen();
 		a.setId(new Long(5));
@@ -89,13 +90,13 @@ public class MealRulesTest {
 		grocerie.setAllergens(new HashSet<>());
 		grocerie.getAllergens().add(b);
 		
-		Alarm alarm = mealService.userGrocerieAllergie(data, grocerie);
-		assertNull(alarm);
+		List<Alarm> alarm = mealService.userGrocerieAllergie(data, grocerie);
+		assertEquals(0, alarm.size());
 	}
 	
 	@Test
 	public void userMealHasAllergie() {
-		//alergican na obrok
+		// testiramo da li se javlja upozorenje korisniku da je alergican na neki od sastojaka obroka
 		Allergen a = new Allergen();
 		a.setId(new Long(5));
 		
@@ -117,14 +118,14 @@ public class MealRulesTest {
 		
 		meal.getGroceries().add(new GrocerieQuantity(10l, grocerie, 200.0, meal));
 		
-		Alarm alarm = mealService.userMealAllergie(data, meal);
+		List<Alarm> alarm = mealService.userMealAllergie(data, meal);
 		
-		assertNotNull(alarm);
+		assertEquals(1, alarm.size());
 	}
 	
 	@Test
 	public void userMealNotHasAllergie() {
-		//alergican na obrok
+		// korisnik NIJE alergican na obrok
 		Allergen a = new Allergen();
 		Allergen b = new Allergen();
 		a.setId(new Long(5));
@@ -147,9 +148,9 @@ public class MealRulesTest {
 		
 		meal.getGroceries().add(new GrocerieQuantity(10l, grocerie, 200.0, meal));
 		
-		Alarm alarm = mealService.userMealAllergie(data, meal);
+		List<Alarm> alarm = mealService.userMealAllergie(data, meal);
 		
-		assertNull(alarm);
+		assertEquals(0, alarm.size());
 	}
 
 }

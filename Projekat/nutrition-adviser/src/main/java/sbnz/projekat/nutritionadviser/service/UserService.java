@@ -32,6 +32,12 @@ public class UserService{
 		this.userRepository = userRepository;
 		this.kieContainer = kieContainer;
 	}
+	
+	public User findByUsername(String username) {
+		User user = this.userRepository.findOneByUsername(username);
+		
+		return user;
+	}
 
 	public UserData save(UserDetailsDTO details, Long userId) {
 

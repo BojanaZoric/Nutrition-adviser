@@ -31,7 +31,7 @@ public class CepTest {
 		KieServices ks = KieServices.Factory.get();
 		KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("sbnz.projekat", "nutrition-adviser-drools", "0.0.1-SNAPSHOT"));
 		
-		mealService = new MealService(null, null, null, kContainer);
+		mealService = new MealService(null, null, null, null, kContainer);
 	}
 
 	@Test
