@@ -93,12 +93,12 @@ public class MealController {
 	}
 	
 	@PostMapping(
-			value = "/missingGroceries",
+			value = "/missingGroceries/{mealId}",
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<MissingGroceries> missingGroceriew(@RequestBody GrocerieIdList list) {
-		MissingGroceries m = this.mealService.getMissingGroceries(list);
+	public ResponseEntity<MissingGroceries> missingGroceriew(@RequestBody GrocerieIdList list, @PathVariable("mealId") Long mealId) {
+		MissingGroceries m = this.mealService.getMissingGroceries(list, mealId);
 		return new ResponseEntity<MissingGroceries>(m, HttpStatus.OK);
 	}
 	

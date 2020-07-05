@@ -202,7 +202,7 @@ public class MealService {
 		return pm;
 	}
 	
-	public MissingGroceries getMissingGroceries(GrocerieIdList grocerieIdList) {
+	public MissingGroceries getMissingGroceries(GrocerieIdList grocerieIdList, Long mealId) {
 		MissingGroceries mg = new MissingGroceries();
 		
 		GrocerieList grocerieList = new GrocerieList();
@@ -216,11 +216,9 @@ public class MealService {
 			}
 		}
 		
-		List<Meal> allMeals = this.mealRepository.findAll();
+		Meal meal = this.mealRepository.getOne(mealId);
 		
-		for (Meal meal : allMeals) {
-			mg = this.findMissingGroceriesFromMeal(grocerieList, meal);
-		}
+		mg = this.findMissingGroceriesFromMeal(grocerieList, meal);
 		
 		return mg;
 	}

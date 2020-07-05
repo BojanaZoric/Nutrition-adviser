@@ -17,25 +17,37 @@
     </div>
     <button type="button" class="btn btn-primary" @click="findAll">Pronadji recepte</button>
 
-    <recepiesList :meals="meals"> </recepiesList>
+    <div class="container">
+    <div class="row mt-5 recepie-card"   v-for="meal in meals" :key="meal.id">
+        <div class="col-md-3">
+        <img class="card-img-left" src="../../../public/images/r3.jpg" alt="Card image cap">
+        </div>
+        <div class="col-md-9">
+        <h3>{{meal.name}}</h3>
+        <p> {{meal.description}}<br />
+        <span class="monsBold mt-2">{{meal.preparationTime}}min</span> | {{meal.mealType.mealType}}<br /></p>
+        <a href="#" class="card-link"  @click="findMissing(meal.id)">Missing groceries</a>
+
+        </div>
+  </div>
+</div>
   </div>
 </template>
 
 <script>
-import recepiesList from '@/components/recepies/recepies-list'
 import {AXIOS} from '../../http-common'
 
 export default {
   name: 'findMeal',
   components: {
-      recepiesList
     },
   data () {
     return {
       meals: [], 
       allGroceries: [],
       selected: 1,
-      multipleSelections: []
+      multipleSelections: [],
+      missingGroceries: []
     }
   },
   mounted(){
@@ -52,6 +64,28 @@ export default {
   }
   ,
   methods: {
+      findMissing(id) {
+          console.log(id)
+           const groceries = {
+                'grocerieList': this.multipleSelections
+            }
+
+          AXIOS.post('/meal/missingGroceries/' + id, groceries)
+            .then(response => {
+                this.missingGroceries = response.data.groceries
+                let i = 0
+                let out = "Missing groceries: \n";
+                for( i = 0; i < this.missingGroceries.length; i++) {
+                    out += this.missingGroceries[i].name + " \n";
+                    console.log(this.missingGroceries[i].name)
+                }
+                console.log(response.data.groceries)
+                alert(out);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+      },
       findAll() {
           if(this.selected == 1) {
             const groceries = {
