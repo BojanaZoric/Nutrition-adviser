@@ -152,16 +152,24 @@ public class MealService {
 		}
 		
 		List<Meal> allMeals = this.mealRepository.findAll();
-		
+		KieSession kieSession = kieContainer.newKieSession("session");
+		kieSession.insert(pm);
+		kieSession.insert(grocerieList);
+
 		for (Meal meal : allMeals) {
-			pm = this.checkIfMealHasAllGroceries(grocerieList, meal);
+			kieSession.insert(meal);
 		}
 		
+		kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (checkIfMealHasAllGroceries): " + numOfRules);
+		System.out.println(pm.getMeals().size());
+		
+		kieSession.dispose();
 		return pm;
 	}
 	
 	public PossibleMeals getMealsHasAllGroceriesAndMore(GrocerieIdList grocerieIdList) {
-		PossibleMeals pm = new PossibleMeals();
 		
 		GrocerieList grocerieList = new GrocerieList();
 		grocerieList.setGrocerieList(new ArrayList<>());
@@ -175,10 +183,21 @@ public class MealService {
 		}
 		
 		List<Meal> allMeals = this.mealRepository.findAll();
-		
+		KieSession kieSession = kieContainer.newKieSession("session");
+		PossibleMeals pm = new PossibleMeals();
+		kieSession.insert(pm);
+		kieSession.insert(grocerieList);
+
 		for (Meal meal : allMeals) {
-			pm = this.checkIfMealHasAllGroceriesAndMore(grocerieList, meal);
+			kieSession.insert(meal);
 		}
+		
+		kieSession.getAgenda().getAgendaGroup("recommendation-more").setFocus();
+		int numOfRules = kieSession.fireAllRules();
+		System.out.println("Broj aktiviranih pravila (checkIfMealHasAllGroceriesAndMore): " + numOfRules);
+		System.out.println(pm.getMeals().size());
+		
+		kieSession.dispose();
 		
 		return pm;
 	}
@@ -300,7 +319,7 @@ public class MealService {
 		kieSession.getAgenda().getAgendaGroup("recommendation-more").setFocus();
 		int numOfRules = kieSession.fireAllRules();
 		System.out.println("Broj aktiviranih pravila (checkIfMealHasAllGroceriesAndMore): " + numOfRules);
-	
+		System.out.println(pm.getMeals().size());
 		
 		kieSession.dispose();
 

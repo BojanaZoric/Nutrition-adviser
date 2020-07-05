@@ -32,10 +32,14 @@ INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (1, "
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (1, 1, 200, 1);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (2, 5, 100, 1);
 
+INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (3, "Rich chocolate cake2", 500, 4,15);
+INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (7, 1, 200, 3);
+INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (8, 5, 100, 3);
+
 -- pasta (200g spagetti, 100g cheese)
 INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (2, "pasta", 400, 4, 7);
-INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (3, 3, 200, 1);
-INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (4, 6, 100, 1);
+INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (3, 3, 200, 2);
+INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (4, 6, 100, 2);
 
 --passwordi 123
 INSERT INTO users (id, username, password, first_name, last_name, allowed_to_eat) VALUES (1, "user", "$2y$12$jsNdy6BLYxS80nLoUuMwDuIh9lyo8dgr8MRHLPleUT8TopbBHXsIq", "User", "User", true);
