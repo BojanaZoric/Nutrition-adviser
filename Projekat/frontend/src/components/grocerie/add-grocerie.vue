@@ -26,6 +26,21 @@
         <input type="checkbox" class="form-check-input" id="glutenFree" v-model="glutenFree">
         <label class="form-check-label" for="glutenFree" >Bez glutena</label>
     </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="diabetes" v-model="diabetes">
+        <label class="form-check-label" for="diabetes" >Pogodno za dijabetičare</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="heartDisease" v-model="heartDisease">
+        <label class="form-check-label" for="heartDisease" >Pogodna za srčane bolesnike</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="highBloodPressure" v-model="highBloodPressure">
+        <label class="form-check-label" for="highBloodPressure" >Pogodna za ljude sa visokim pritiskom</label>
+    </div>
     <br />
     <button type="button" class="btn btn-primary" @click="add">Dodaj namirnicu</button>
 
@@ -45,7 +60,10 @@ export default {
       calories: 0,
       proteinAmount: 0,
       carbohydrateAmount: 0,
-      glutenFree: true
+      glutenFree: true, 
+      diabetes: true,
+      heartDisease: true,
+      highBloodPressure: true
     }
   },
   mounted(){
@@ -60,7 +78,10 @@ export default {
             'calories': this.calories,
             'proteinAmount': this.proteinAmount,
             'carbohydrateAmount': this.carbohydrateAmount,
-            'glutenFree': this.glutenFree
+            'glutenFree': this.glutenFree,
+            'diabetes': this.diabetes,
+            'heartDisease': this.heartDisease,
+            'highBloodPressure': this.highBloodPressure,
 
         }
 

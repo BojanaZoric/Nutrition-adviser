@@ -15,21 +15,20 @@
 
     <div class="form-group">
         <label for="description">Opis</label>
-        <input type="number" class="form-control" id="description" placeholder="Opis" v-model="description">
+        <input type="text" class="form-control" id="description" placeholder="Opis" v-model="description">
     </div>
 
     <div class="form-group">
         <label for="Instrukcije">Instrukcije</label>
-        <input type="number" class="form-control" id="instructions" placeholder="Instrukcije" v-model="instructions">
+        <input type="text" class="form-control" id="instructions" placeholder="Instrukcije" v-model="instructions">
     </div>
 
     <div class="form-group">
-    <label for="problemi">Namirnice</label>
-    <select multiple class="form-control" id="problemi">
-        <option v-for="grocerie in allGroceries" :key="grocerie.id">{{grocerie.name}}</option>
-    </select>
+        <label for="problemi">Namirnice</label>
+        <select multiple class="form-control" id="problemi"  v-model="multipleSelections">
+            <option v-for="grocerie in allGroceries" :key="grocerie.id"  v-bind:value="grocerie.id">{{grocerie.name}}</option>
+        </select>
     </div>
-    <button type="button" class="btn btn-primary" @click="addQuantities">Dodaj kolicine</button>
 
     <br />
     <button type="button" class="btn btn-primary" @click="add">Dodaj namirnicu</button>
@@ -51,7 +50,8 @@ export default {
       description: '',
       instructions: '',
       allGroceries: '',
-      quantities: []
+      quantities: [],
+      multipleSelections: []
     }
   },
   mounted(){
@@ -69,21 +69,34 @@ export default {
 
       addQuantities(e) {
             e.preventDefault()
+            this.quantities = this.multipleSelections;
 
       },
        add (e) {
         e.preventDefault()
-        const groceries = {
-            'name': this.name,
-            'calories': this.calories,
-            'proteinAmount': this.proteinAmount,
-            'carbohydrateAmount': this.carbohydrateAmount,
-            'glutenFree': this.glutenFree
 
+        let grocery;
+        let i = 0;
+        for (i = 0; i < this.multipleSelections.length; i++) {
+            grocery = {
+                'grocery_id' : this.multipleSelections[i], 
+                'quantity': 100
+            }
+            this.quantities.push(grocery);
+
+        }
+        
+        const groceries = {
+            'id': 100,
+            'name': this.name,
+            'description': this.description,
+            'preparationTime': this.preparationTime,
+            'instructions': this.instructions,
+            'groceries': this.quantities
         }
 
         console.log(groceries)
-        AXIOS.post('/meals', groceries)
+        AXIOS.post('/meal', groceries)
         .then(response => {
             this.allGroceries = response 
         })

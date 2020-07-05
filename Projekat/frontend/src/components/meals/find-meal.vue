@@ -76,7 +76,7 @@ export default {
                 let i = 0
                 let out = "Missing groceries: \n";
 
-                if(this.missingGroceries.length) {
+                if(this.missingGroceries.length == 0) {
                     out += "NO MISSING GROCERIES"
                 }
                 for( i = 0; i < this.missingGroceries.length; i++) {

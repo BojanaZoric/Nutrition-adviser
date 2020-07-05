@@ -23,12 +23,7 @@
          <li class="nav-item">
            <h5 class="nav-link"  v-on:click="redirectMeals">Moji obroci</h5>
          </li>
-         <li class="nav-item">
-           <h5 class="nav-link"  v-on:click="addGrocerie">Dodaj namirnicu</h5>
-         </li>
-         <li class="nav-item">
-           <h5 class="nav-link"  v-on:click="addMeal">Dodaj obrok</h5>
-         </li>
+
           <li class="nav-item dropdown">
              <h5 class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                Profil

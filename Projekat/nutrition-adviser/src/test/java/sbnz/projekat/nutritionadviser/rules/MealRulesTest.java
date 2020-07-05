@@ -192,7 +192,7 @@ public class MealRulesTest {
 		meal.getGroceries().add(new GrocerieQuantity(11l, grocerie2, 200.0, meal));
 		List<Alarm> alarm = mealService.userMealAllergie(data, meal);
 		
-		assertEquals(3, alarm.size());
+		assertEquals(1, alarm.size());
 	}
 
 }
