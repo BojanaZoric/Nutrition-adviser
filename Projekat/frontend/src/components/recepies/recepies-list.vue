@@ -8,7 +8,7 @@
       <h3>{{meal.name}}</h3>
       <p> {{meal.description}}<br />
        <span class="monsBold mt-2">{{meal.preparationTime}}min</span> | {{meal.mealType.mealType}}<br /></p>
-       <a href="#" class="card-link">More details</a>
+       <a href="#" class="card-link" @click="addMeal(meal.id)">More details</a>
 
     </div>
   </div>
@@ -30,7 +30,9 @@ export default {
   }
   ,
   methods: {
-
+      addMeal(id) {
+      this.$router.push("/details/" + id)
+    }
   }
 }
 </script>

@@ -8,28 +8,25 @@
     </div>
      <div class="col-md-9">
         <h2>{{meal.name}}</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. <br />
+        <p>{{meal.description}}<br />
          <br />
          <br />
-         <span class="monsBold">15min</span>| 754cal
+         <span class="monsBold">{{meal.preparationTime}}min</span>| {{meal.calories}}cal
          <br /></p>
         <h4>Potrebne namirnice </h4>
-        <ul>
-          <li>Belo meso </li>
-          <li>Pavlaka </li>
-          <li>Krastavac </li>
-          <li>Hleb </li>
+        <ul  v-for="grocerie in meal.groceries" :key="grocerie.grocerie.id">
+          <li>{{grocerie.grocerie.name}}, {{grocerie.quantity}}gr</li>
 
         </ul>
         <br />
 
         <h4>Nutritivna vrednost</h4>
-        Broj kalorija: <span class="monsBold">754cal</span><br />
-        Količina proteina: <br />
-        Količina ugljenih-hidrata:
+        Broj kalorija: <span class="monsBold">{{meal.calories}}cal</span><br />
+        Količina proteina: {{meal.proteinAmount}}<br />
+        Količina ugljenih-hidrata: {{meal.carbohydrateAmount}}
 
         <h4 class="mt-3">Način pripreme</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad min. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minUt enim ad minim veniam. <br /> <br /></p>
+        <p>{{meal.instructions}}<br /> <br /></p>
 
       </div>
 
@@ -48,7 +45,7 @@ export default {
     }
   },
   mounted(){
-    axios.get(`http://localhost:8081/meal/1`)
+    axios.get(`http://localhost:8081/meal/` +  this.$route.params.id)
     .then(response => {
       this.meal = response.data;
       console.log(this.meal)

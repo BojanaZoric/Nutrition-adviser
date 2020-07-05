@@ -33,7 +33,7 @@ export default new Router({
             component: recepiesContainer
         },
         {
-            path: '/details',
+            path: '/details/:id',
             component: recepieDetails
         },
         {
