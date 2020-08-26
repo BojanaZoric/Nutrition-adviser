@@ -45,7 +45,13 @@ INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (4, 6,
 INSERT INTO users (id, username, password, first_name, last_name, allowed_to_eat) VALUES (1, "user", "$2y$12$jsNdy6BLYxS80nLoUuMwDuIh9lyo8dgr8MRHLPleUT8TopbBHXsIq", "User", "User", true);
 INSERT INTO users (id, username, password, first_name, last_name, allowed_to_eat) VALUES (2, "user2", "$2y$12$jsNdy6BLYxS80nLoUuMwDuIh9lyo8dgr8MRHLPleUT8TopbBHXsIq", "User2", "User2", true);
 
+INSERT INTO authority (id, name) VALUES (1, 'ROLE_USER');
+INSERT INTO authority (id, name) VALUES (2, 'ROLE_ADMIN');
+
 INSERT INTO user_data(id, user_id, height, weight, year_of_birth, gender, diet_id, diabetes, heart_disease, high_blood_pressure) VALUES (1,1, 190, 150, 1975, 0, null, false, false, true);
+
+INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);
+INSERT INTO user_authority (user_id, authority_id) VALUES (2, 2);
 
 INSERT INTO user_allergy(user_data_id, allergen_id) VALUES(1, 1);
 

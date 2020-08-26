@@ -1,0 +1,24 @@
+package sbnz.projekat;
+import sbnz.projekat.nutritionadviser.model.*;
+import sbnz.projekat.nutritionadviser.event.*;
+import java.util.*;
+import java.time.LocalDate;
+
+rule "Report_0fc16892-7693-41b1-bc8c-bfe66763a725"
+no-loop true
+agenda-group "report"
+when
+    $user: UserData(userId() == 1, $data: getDetails())
+    $retVal: Number(doubleValue > 0) from accumulate (
+		$d: MealDetails(
+			$kcal: getCalories(), date.isBefore(LocalDate.now()) || date.isEqual(LocalDate.now()),
+			date.isAfter(LocalDate.now().minusDays(5))
+		) from $data,
+		sum($kcal)
+	)
+then
+	String message = "User " + 1 + " has " + $retVal + " calories in past " + 5 + " days ";  
+    insert(new Report(new Long(1), $retVal, message));
+end
+
+
