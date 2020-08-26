@@ -28,16 +28,16 @@ INSERT INTO grocerie_allergen(grocerie_id, allergen_id) VALUES (3, 2);
 INSERT INTO grocerie_allergen(grocerie_id, allergen_id) VALUES (5, 1);
 
 -- cake (200g sugar, 100g chocolate)
-INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (1, "Rich chocolate cake", 500, 4,15);
+INSERT INTO meal (id, name, calories, meal_type_id, protein_amount, description, preparation_time) VALUES (1, "Rich chocolate cake", 500, 4,15, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ", 15);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (1, 1, 200, 1);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (2, 5, 100, 1);
 
-INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (3, "Rich chocolate cake2", 500, 4,15);
+INSERT INTO meal (id, name, calories, meal_type_id, protein_amount, description, preparation_time) VALUES (3, "Biftek", 500, 4,15, "Lorem ipsum dolor sit amer", 45);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (7, 1, 200, 3);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (8, 5, 100, 3);
 
 -- pasta (200g spagetti, 100g cheese)
-INSERT INTO meal (id, name, calories, meal_type_id, protein_amount) VALUES (2, "pasta", 400, 4, 7);
+INSERT INTO meal (id, name, calories, meal_type_id, protein_amount, description, preparation_time) VALUES (2, "Pasta sa skampima", 400, 4, 7, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ", 15);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (3, 3, 200, 2);
 INSERT INTO grocerie_quantity (id, grocerie_id, quantity, meal_id) VALUES (4, 6, 100, 2);
 
