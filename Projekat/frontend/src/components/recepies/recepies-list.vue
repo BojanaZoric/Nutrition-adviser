@@ -7,7 +7,7 @@
     <div class="col-md-9">
       <h3>{{meal.name}}</h3>
       <p> {{meal.description}}<br />
-       <span class="monsBold mt-2">{{meal.preparationTime}}min</span> | {{meal.mealType.mealType}}<br /></p>
+       <span class="monsBold mt-2">{{meal.preparationTime}}min</span> <br /></p>
        <a href="#" class="card-link" @click="addMeal(meal.id)">More details</a>
 
     </div>

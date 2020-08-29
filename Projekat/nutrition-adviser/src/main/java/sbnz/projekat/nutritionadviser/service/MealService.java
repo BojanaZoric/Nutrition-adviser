@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import sbnz.projekat.nutritionadviser.dto.FilterDTO;
 import sbnz.projekat.nutritionadviser.dto.GroceriesQuantityDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
+import sbnz.projekat.nutritionadviser.dto.StepDTO;
 import sbnz.projekat.nutritionadviser.event.EatingMealEvent;
 import sbnz.projekat.nutritionadviser.model.Alarm;
 import sbnz.projekat.nutritionadviser.model.Grocerie;
@@ -24,6 +25,7 @@ import sbnz.projekat.nutritionadviser.model.GrocerieQuantity;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.MissingGroceries;
 import sbnz.projekat.nutritionadviser.model.PossibleMeals;
+import sbnz.projekat.nutritionadviser.model.Step;
 import sbnz.projekat.nutritionadviser.model.User;
 import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
@@ -84,6 +86,13 @@ public class MealService {
 			GrocerieQuantity gq = new GrocerieQuantity(null, groc, gqDTO.getQuantity(), m);
 
 			m.getGroceries().add(gq);
+			//this.grocerieQuantityRepository.save(gq);
+		}
+		
+		for (StepDTO gqDTO : dto.getSteps()) {
+			Step s = new Step(null, gqDTO.getName(), gqDTO.getInstruction(), m);
+			
+			m.getSteps().add(s);
 			//this.grocerieQuantityRepository.save(gq);
 		}
 

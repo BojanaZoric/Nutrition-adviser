@@ -17,6 +17,15 @@ public class MealDTO {
 	private String instructions;
 
 	private List<GroceriesQuantityDTO> groceries = new ArrayList<GroceriesQuantityDTO>();
+	private List<StepDTO> steps = new ArrayList<StepDTO>();
+
+	public List<StepDTO> getSteps() {
+		return steps;
+	}
+
+	public void setSteps(List<StepDTO> steps) {
+		this.steps = steps;
+	}
 
 	public Long getId() {
 		return id;

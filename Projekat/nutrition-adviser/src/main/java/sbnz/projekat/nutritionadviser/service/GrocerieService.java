@@ -50,7 +50,11 @@ public class GrocerieService {
 
 	public Grocerie save(GrocerieDTO dto) {
 
-		Grocerie grocerie = GrocerieDTOConverter.DtoToGrocerie(dto);
+		Grocerie grocerie = this.grocerieRepository.findOneByName(dto.getName());
+		if(grocerie != null)
+			return grocerie;
+		grocerie = GrocerieDTOConverter.DtoToGrocerie(dto);
+		
 		grocerie.setAllergens(new HashSet<>());
 		if(dto.getAllergens() != null) {
 			for (Long id : dto.getAllergens()) {

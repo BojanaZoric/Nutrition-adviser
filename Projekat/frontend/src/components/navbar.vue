@@ -23,16 +23,17 @@
          <li class="nav-item">
            <h5 class="nav-link"  v-on:click="redirectMeals">Moji obroci</h5>
          </li>
+         <li class="nav-item">
+           <h5 class="nav-link"  v-on:click="addMeal">Dodaj obrok</h5>
+         </li>
 
-          <li class="nav-item dropdown">
-             <h5 class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               Profil
-             </h5>
-             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-               <h5 class="dropdown-item"  v-on:click="redirectProfile">Izmena profila</h5>
-               <h5 class="dropdown-item" href="#">Odjavi me</h5>
-             </div>
-           </li>
+         <li class="nav-item">
+           <h5 class="nav-link"  v-on:click="addGrocerie">Dodaj namirnicu</h5>
+         </li>
+
+         <li class="nav-item">
+           <h5 class="nav-link"  v-on:click="login">Login</h5>
+         </li>
        </ul>
 
    </div>
@@ -69,6 +70,9 @@ export default {
 
     addMeal() {
       this.$router.push("/add-meal")
+    },
+    login() {
+      this.$router.push("/login")
     }
 
   }

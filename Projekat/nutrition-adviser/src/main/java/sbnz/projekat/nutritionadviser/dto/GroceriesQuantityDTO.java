@@ -1,7 +1,20 @@
 package sbnz.projekat.nutritionadviser.dto;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 public class GroceriesQuantityDTO {
-	
+    private Long id;
+
+    public GroceriesQuantityDTO() {}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	private Long grocerie_id;
 	private double quantity;
 	

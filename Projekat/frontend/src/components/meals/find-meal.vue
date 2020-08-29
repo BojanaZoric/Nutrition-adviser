@@ -25,13 +25,30 @@
         <div class="col-md-9">
         <h3>{{meal.name}}</h3>
         <p> {{meal.description}}<br />
-        <span class="monsBold mt-2">{{meal.preparationTime}}min</span> | {{meal.mealType.mealType}}<br /></p>
+        <span class="monsBold mt-2">{{meal.preparationTime}}min</span> <br /></p>
         <a href="#" class="card-link"  @click="findMissing(meal.id)">Missing groceries</a>
 
         </div>
+
+        <div class="modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Missing groceries</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>{{this.out}}</p>
+              </div>
+
+          </div>
+        </div>
   </div>
 </div>
-  </div>
+  </div></div>
+
 </template>
 
 <script>
@@ -43,18 +60,20 @@ export default {
     },
   data () {
     return {
-      meals: [], 
+      meals: [],
       allGroceries: [],
       selected: 1,
       multipleSelections: [],
-      missingGroceries: []
+      missingGroceries: [],
+      out: '',
+      modalShow: false
     }
   },
   mounted(){
 
     AXIOS.get('/groceries')
     .then(response => {
-        this.allGroceries = response.data 
+        this.allGroceries = response.data
         console.log(this.allGroceries)
     })
     .catch(err => {
@@ -85,6 +104,8 @@ export default {
                 }
                 console.log(response.data.groceries)
                 alert(out);
+                this.out = out;
+                this.modalShow = !this.modalShow;
             })
             .catch(err => {
                 console.log(err)
@@ -122,7 +143,7 @@ export default {
                 console.log(err)
             })
         }
-         
+
       }
 
   }

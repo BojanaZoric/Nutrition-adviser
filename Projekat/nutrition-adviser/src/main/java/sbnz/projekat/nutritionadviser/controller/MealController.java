@@ -45,7 +45,7 @@ public class MealController {
 		return new ResponseEntity<Meal>(m, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
@@ -104,7 +104,7 @@ public class MealController {
 		return new ResponseEntity<MissingGroceries>(m, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('USER')")
+	//@PreAuthorize("hasRole('USER')")
 	@GetMapping(
 			value = "/checkMeal/{mealId}",
 			produces = MediaType.APPLICATION_JSON_VALUE
