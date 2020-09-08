@@ -10,8 +10,32 @@ public class GrocerieDTO {
 	private double proteinAmount;
 	private double carbohydrateAmount;
 	private boolean glutenFree;
+	private String measure;
 	
-	
+	public String getMeasure() {
+		return measure;
+	}
+
+	public void setMeasure(String measure) {
+		this.measure = measure;
+	}
+
+	public void setDiabetes(boolean diabetes) {
+		this.diabetes = diabetes;
+	}
+
+	public void setHeartDisease(boolean heartDisease) {
+		this.heartDisease = heartDisease;
+	}
+
+	public void setHighBloodPressure(boolean highBloodPressure) {
+		this.highBloodPressure = highBloodPressure;
+	}
+
+	public void setDiet(long diet) {
+		this.diet = diet;
+	}
+
 	private boolean diabetes; // pogodno za dijabeticare
 	private boolean heartDisease; // pogodno za srcane bolesnike
 	private boolean highBloodPressure; // pogodno za ljude sa visokim pritiskom

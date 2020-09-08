@@ -18,9 +18,21 @@ rule "More than 3 meals in 6 hours from same user"
 			$p: EatingMealEvent(user.id == $userId)
 			over window:time(6h), count($p)
 		)
-        not (SuspiciousUserEvent(user.id == $userId, reason == "More than 3 meals in 6 hours"))
     then
     System.out.println("Num " + $num);
     	$user.setAllowedToEat(false);
     	insert(new SuspiciousUserEvent($user, "More than 3 meals in 6 hours"));
+end
+
+rule Less than 3 meals in 6 hours from same user"
+	agenda-group "allowed-to-eat"
+    when
+        $t1: EatingMealEvent($userId: user.id, $user : user)
+        $num: Number(intValue<3 ) from accumulate(
+			$p: EatingMealEvent(user.id == $userId)
+			over window:time(6h), count($p)
+		)
+    then
+    System.out.println("Num " + $num);
+    	$user.setAllowedToEat(true);
 end

@@ -102,6 +102,7 @@ public class MealRulesTest {
 		data.getAllergies().add(a);
 		
 		Grocerie grocerie = new Grocerie();
+	
 		grocerie.setAllergens(new HashSet<>());
 		grocerie.getAllergens().add(a);
 		grocerie.setCalories(100);

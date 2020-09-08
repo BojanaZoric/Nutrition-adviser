@@ -1,26 +1,26 @@
 <template>
   <div class="container pt-5 pb-5">
-    <h1>Dodavanje <span class="monsBold">obroka</span></h1>
+    <h1>Izmena <span class="monsBold">obroka</span></h1>
 
     <form>
       <div class="form-group">
         <label for="naziv">Naziv obroka</label>
-        <input type="text" class="form-control" id="naziv" placeholder="Naziv" v-model="name">
+        <input type="text" class="form-control" id="naziv" placeholder="Naziv" v-model="meal.name">
       </div>
 
     <div class="form-group">
         <label for="preparationTime">Vreme pripreme</label>
-        <input type="number" class="form-control" id="preparationTime" placeholder="Vreme pripreme" v-model="preparationTime">
+        <input type="number" class="form-control" id="preparationTime" placeholder="Vreme pripreme" v-model="meal.preparationTime">
     </div>
 
     <div class="form-group">
         <label for="description">Opis</label>
-        <input type="text" class="form-control" id="description" placeholder="Opis" v-model="description">
+        <input type="text" class="form-control" id="description" placeholder="Opis" v-model="meal.description">
     </div>
 
     <div class="form-group">
         <label for="Instrukcije">Instrukcije</label>
-        <input type="text" class="form-control" id="instructions" placeholder="Instrukcije" v-model="instructions">
+        <input type="text" class="form-control" id="instructions" placeholder="Instrukcije" v-model="meal.instructions">
     </div>
 
     <div>
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div v-if="quantities !== []" class="ml-5 mb-5 mt-5 mr-5 row">
+    <div v-if="meal.groceries !== []" class="ml-5 mb-5 mt-5 mr-5 row">
       <table class="table">
       <thead>
         <tr>
@@ -63,12 +63,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in quantities" v-bind:key="item.grocerie_id.id">
+        <tr v-for="item in meal.groceries" v-bind:key="item.grocerie.id">
           <th scope="row"></th>
-          <td>{{item.grocerie_id.name}}</td>
-                    <td>{{item.grocerie_id.measure}}</td>
+          <td>{{item.grocerie.name}}</td>
+                    <td>{{item.grocerie.measure}}</td>
 
           <td>{{item.quantity}}</td>
+                <td>    <button type="button" class="btn btn-danger" @click="deleteG(item.grocerie.id)">Obriši</button>
+</td>
         </tr>
       </tbody>
     </table>
@@ -87,7 +89,7 @@
       </div>
     </div>
 
-    <div v-if="steps !== []" class="ml-5 mb-5 mt-5 mr-5 row">
+    <div v-if="meal.steps !== []" class="ml-5 mb-5 mt-5 mr-5 row">
       <table class="table">
       <thead>
         <tr>
@@ -97,17 +99,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in steps" v-bind:key="item.name">
+        <tr v-for="item in meal.steps" v-bind:key="item.name">
           <th scope="row"></th>
           <td>{{item.name}}</td>
           <td>{{item.instruction}}</td>
+                    <td>    <button type="button" class="btn btn-danger" @click="deleteS(item.id)">Obriši</button>
+</td>
+
         </tr>
       </tbody>
     </table>
     </div>
 
     <br />
-    <button type="button" class="btn btn-primary" @click="add">Dodaj obrok</button>
+    <button type="button" class="btn btn-primary" @click="add">Izmeni obrok</button>
     {{groc}}
     </form>
   </div>
@@ -119,6 +124,7 @@
 import _ from 'underscore'
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 import {AXIOS} from '../../http-common'
+import Axios from 'axios'
 
 const API_URL = 'https://api.edamam.com/api/food-database/v2/parser?ingr=:query&app_id=95c8a7ac&app_key=dafeb6c68eb8c49d26dea8136ed01401'
 
@@ -126,29 +132,50 @@ export default {
    components: {
         VueBootstrapTypeahead
     },
-  name: 'addMeal',
+  name: 'editMeal',
   data () {
     return {
-      name: '',
-      preparationTime: '',
-      description: '',
-      instructions: '',
       addresses: [],
       addressSearch: '',
       selectedAddress: null,
       selectedAdressDetails: null,
-      quantities: [],
+
       selectedQuantity: null,
       groc: null,
       stepName: '',
       stepInstuction: '',
-      steps: [],
       measures: [],
       selectedMeasure: '',
-      saved: ''
+      saved: '',
+      meal :null
     }
   },
+  mounted() {
+    Axios.get(`http://localhost:8081/meal/` +  this.$route.params.id)
+    .then(response => {
+      this.meal = response.data;
+      this.meal.steps.sort(function(a, b) {
+  return a.id - b.id ;
+})
+      console.log(this.meal)
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+  },
   methods: {
+    deleteG(id) {
+
+          this.meal.groceries = this.meal.groceries.filter(x => {
+  return x.grocerie.id != id;});
+
+        },
+         deleteS(id) {
+
+          this.meal.steps = this.meal.steps.filter(x => {
+  return x.id != id;});
+
+        },
     async getAddresses(query) {
 
 
@@ -169,7 +196,7 @@ export default {
         'name': this.stepName,
         'instruction': this.stepInstuction
       }
-      this.steps.push(step);
+      this.meal.steps.push(step);
     },
     addQuantity(){
 
@@ -255,45 +282,50 @@ else if(this.selectedAdressDetails.healthLabels.find(element => element === 'SOY
         AXIOS.post('/groceries', groceries, { headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`} })
         .then(response => {
            this.saved = response.data;
-            let q = this.quantities.find(q => q.grocerie_id.id === this.selectedAddress.id)
+           console.log(this.meal.groceries)
+            let q = this.meal.groceries.find(q => q.grocerie.id === this.saved.id)
            if(q){
              q.quantity += parseInt(this.selectedQuantity)
            }else{
            const grocery = {
-                'grocerie_id' : this.saved,
+                'grocerie' : this.saved,
                 'quantity': parseInt(this.selectedQuantity)
             }
-            this.quantities.push(grocery);
+            this.meal.groceries.push(grocery);
 
             }
         })
         .catch(err => {
             console.log(err)
         })
-        console.log(this.quantities)
+        console.log(this.meal.groceries)
 
     },
     add (e) {
         e.preventDefault()
 
         let i = 0;
-        for (i = 0; i < this.quantities.length; i++) {
-          let temp = this.quantities[i].grocerie_id.id;
-          this.quantities[i].grocerie_id = temp;
+        let groceriess = []
+        for (i = 0; i < this.meal.groceries.length; i++) {
+          const grocery = {
+                'grocerie_id' : this.meal.groceries[i].grocerie.id,
+                'quantity': parseInt(this.meal.groceries[i].quantity)
+            }
+            groceriess.push(grocery);
         }
 
         const groceries = {
-            'id': 100,
-            'name': this.name,
-            'description': this.description,
-            'preparationTime': this.preparationTime,
-            'instructions': this.instructions,
-            'groceries': this.quantities,
-            'steps': this.steps
+            'id': this.meal.id,
+            'name': this.meal.name,
+            'description': this.meal.description,
+            'preparationTime': this.meal.preparationTime,
+            'instructions': this.meal.instructions,
+            'groceries': groceriess,
+            'steps': this.meal.steps
         }
         this.groc = groceries;
         console.log(groceries)
-        AXIOS.post('/meal', groceries)
+        AXIOS.put('/meal', groceries)
         .then(response => {
             this.allGroceries = response
                           this.$router.push("/details/" + response.data.id)

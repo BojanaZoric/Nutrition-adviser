@@ -33,8 +33,35 @@ public class Grocerie {
 	private Boolean heartDisease; // pogodno za srcane bolesnike
 	private Boolean highBloodPressure; // pogodno za ljude sa visokim pritiskom
 	
-	
+	private String measure;
 
+
+	public Grocerie(Long id, String name, Integer calories, Double proteinAmount, Double carbohydrateAmount,
+			Boolean glutenFree, Boolean diabetes, Boolean heartDisease, Boolean highBloodPressure, String measure,
+			Diet diet, Set<Allergen> allergens, Set<GrocerieQuantity> grocerieQuantity) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.calories = calories;
+		this.proteinAmount = proteinAmount;
+		this.carbohydrateAmount = carbohydrateAmount;
+		this.glutenFree = glutenFree;
+		this.diabetes = diabetes;
+		this.heartDisease = heartDisease;
+		this.highBloodPressure = highBloodPressure;
+		this.measure = measure;
+		this.diet = diet;
+		this.allergens = allergens;
+		this.grocerieQuantity = grocerieQuantity;
+	}
+
+	public String getMeasure() {
+		return measure;
+	}
+
+	public void setMeasure(String measure) {
+		this.measure = measure;
+	}
 
 	@ManyToOne
 	private Diet diet; // pogodno za vegane, vegeterijance...
@@ -180,5 +207,6 @@ public class Grocerie {
 	public void setDiet(Diet diet) {
 		this.diet = diet;
 	}
+
 
 }

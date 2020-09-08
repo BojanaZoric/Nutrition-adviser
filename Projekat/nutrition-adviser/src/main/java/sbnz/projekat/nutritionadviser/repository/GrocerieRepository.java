@@ -7,4 +7,6 @@ import sbnz.projekat.nutritionadviser.model.User;
 
 public interface GrocerieRepository extends JpaRepository<Grocerie, Long> {
 	Grocerie findOneByName(String name);
+
+	Grocerie findOneByNameAndMeasure(String name, String measure);
 }

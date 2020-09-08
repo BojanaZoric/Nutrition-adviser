@@ -8,10 +8,10 @@ import recepiesContainer from '@/components/recepies/recepies-container'
 import recepieDetails from '@/components/recepies/recepie-details'
 import addGrocerie from '@/components/grocerie/add-grocerie'
 import addMeal from '@/components/meals/add-meal'
+import editMeal from '@/components/meals/edit-meal'
 
 import findMeal from '@/components/meals/find-meal'
 import login from '@/components/account/login'
-
 
 Vue.use(Router)
 
@@ -39,12 +39,16 @@ export default new Router({
             component: recepieDetails
         },
         {
-            path: '/add-grocerie',
+            path: '/meals-table',
             component: addGrocerie
         },
         {
             path: '/add-meal',
             component: addMeal
+        },
+        {
+            path: '/edit-meal/:id',
+            component: editMeal
         },
         {
             path: '/find-meal',

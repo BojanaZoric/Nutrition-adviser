@@ -113,6 +113,9 @@ public class User implements UserDetails{
 		this.allowedToEat = allowedToEat;
 	}
 
+	public String getAuthor() {
+		return this.authorities.get(0).getName();
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;

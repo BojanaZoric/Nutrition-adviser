@@ -13,7 +13,7 @@ rule "Calculate Calories"
 		from accumulate(
 			GrocerieQuantity($quantity: quantity, 
 			$kcal: grocerie.calories) from $groceries,
-			sum($quantity*$kcal/100) // delimo sa 100 jer je referentna vrednost za 100g, a korisnik unosi u gramima
+			sum($quantity*$kcal) // delimo sa 100 jer je referentna vrednost za 100g, a korisnik unosi u gramima
 		)
 	then
 		modify($meal) {setCalories($calories);}
@@ -29,7 +29,7 @@ rule "Calculate Carbohydrate Amount"
 		from accumulate(
 			GrocerieQuantity($quantity: quantity, 
 			$carbo: grocerie.carbohydrateAmount) from $groceries,
-			sum($quantity*$carbo/100) 
+			sum($quantity*$carbo) 
 		)
 	then
 		modify($meal) {setCarbohydrateAmount($carbohydrate);}
@@ -45,7 +45,7 @@ rule "Calculate Protein Amount"
 			GrocerieQuantity($quantity: quantity,
 			$prot: grocerie.proteinAmount)
 			from $groceries,
-			sum($quantity*$prot/100)
+			sum($quantity*$prot)
 		)
 	then
 		modify($meal) {setProteinAmount($proteins);}

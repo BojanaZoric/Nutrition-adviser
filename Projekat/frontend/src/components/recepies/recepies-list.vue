@@ -1,8 +1,7 @@
 <template>
 <div class="container">
   <div class="row mt-5 recepie-card"   v-for="meal in meals" :key="meal.id">
-    <div class="col-md-3">
-      <img class="card-img-left" src="../../../public/images/r3.jpg" alt="Card image cap">
+    <div class="col-md-1">
     </div>
     <div class="col-md-9">
       <h3>{{meal.name}}</h3>

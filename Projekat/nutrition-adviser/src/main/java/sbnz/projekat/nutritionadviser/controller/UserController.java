@@ -1,6 +1,7 @@
 package sbnz.projekat.nutritionadviser.controller;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import sbnz.projekat.nutritionadviser.dto.UserDetailsDTO;
 import sbnz.projekat.nutritionadviser.dto.UserTokenState;
+import sbnz.projekat.nutritionadviser.model.Authority;
 import sbnz.projekat.nutritionadviser.model.User;
 import sbnz.projekat.nutritionadviser.model.UserData;
 import sbnz.projekat.nutritionadviser.security.TokenUtils;
@@ -47,25 +50,34 @@ public class UserController {
 	}
 	
 	@GetMapping(
-			value = "/{username}",
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes = MediaType.APPLICATION_JSON_VALUE
+			value = "/mydata",
+			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<User> getUserData(@PathVariable("username") String username) {
-		
+	public ResponseEntity<User> getUserData() {
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 		User data = this.userService.findByUsername(username);
 		
 		return new ResponseEntity<User>(data, HttpStatus.OK);
 	}
 	
+	@GetMapping(
+			value = "/author",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<String> getAuthor() {
+		String username = this.userService.getAutheeeeee();
+		return new ResponseEntity<String>(username, HttpStatus.OK);
+	}
+	
+	
 	@PostMapping(
-			value = "/data/{userId}",
+			value = "/data",
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<UserData> saveData(@PathVariable("userId") Long userId, @RequestBody UserDetailsDTO  dto) {
+	public ResponseEntity<UserData> saveData (@RequestBody UserDetailsDTO  dto) {
 		
-		UserData data = this.userService.save(dto, userId);
+		UserData data = this.userService.save(dto);
 		
 		return new ResponseEntity<UserData>(data, HttpStatus.OK);
 	}

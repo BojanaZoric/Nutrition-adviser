@@ -1,5 +1,6 @@
 package sbnz.projekat.nutritionadviser.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,21 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sbnz.projekat.nutritionadviser.dto.FilterDTO;
+import sbnz.projekat.nutritionadviser.dto.GrocerieDTO;
 import sbnz.projekat.nutritionadviser.dto.MealDTO;
+import sbnz.projekat.nutritionadviser.event.EatingMealEvent;
 import sbnz.projekat.nutritionadviser.model.Alarm;
+import sbnz.projekat.nutritionadviser.model.Grocerie;
 import sbnz.projekat.nutritionadviser.model.GrocerieIdList;
 import sbnz.projekat.nutritionadviser.model.Meal;
 import sbnz.projekat.nutritionadviser.model.MissingGroceries;
@@ -63,6 +69,14 @@ public class MealController {
 		return new ResponseEntity<Meal>(mealService.getOne(id), HttpStatus.OK);
 	}
 	
+	@PostMapping(
+			value = "/add-user-meal/{id}",
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Boolean> addEMeal(@PathVariable("id") Long id){
+		
+		return new ResponseEntity<Boolean>(mealService.eatingMeal(id), HttpStatus.OK);
+	}
 	@PostMapping(
 			value = "/filter",
 			produces = MediaType.APPLICATION_JSON_VALUE,
@@ -121,6 +135,23 @@ public class MealController {
 	public ResponseEntity<List<Alarm>> canIEatThisGrocerie(@PathVariable("grocerieId") Long grocerieId){
 		
 		return new ResponseEntity<List<Alarm>>(mealService.canIEatThisGrocerie(grocerieId), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(
+			value = "/{id}"
+	)
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+		this.mealService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PutMapping(
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Meal> update(@RequestBody MealDTO dto) {
+		
+		return new ResponseEntity<Meal>(this.mealService.update(dto), HttpStatus.CREATED);
 	}
 	
 }

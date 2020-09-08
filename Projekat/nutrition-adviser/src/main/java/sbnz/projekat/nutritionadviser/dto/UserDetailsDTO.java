@@ -1,5 +1,7 @@
 package sbnz.projekat.nutritionadviser.dto;
 
+import java.util.List;
+
 public class UserDetailsDTO {
 
 	private double height;
@@ -12,6 +14,9 @@ public class UserDetailsDTO {
 	private boolean heartDisease;
 	private boolean highBloodPressure;
 	
+
+	private List<Long> allergies;
+	
 	public UserDetailsDTO(double height, double weight, int yearOfBirth, String gender, String diet, boolean diabetes,
 			boolean heartDisease, boolean highBloodPressure) {
 		super();
@@ -23,6 +28,13 @@ public class UserDetailsDTO {
 		this.diabetes = diabetes;
 		this.heartDisease = heartDisease;
 		this.highBloodPressure = highBloodPressure;
+	}
+	
+	public List<Long> getAllergies() {
+		return allergies;
+	}
+	public void setAllergies(List<Long> allergies) {
+		this.allergies = allergies;
 	}
 	public double getHeight() {
 		return height;

@@ -1,5 +1,6 @@
 import axios from 'axios'
 
 export const AXIOS = axios.create({
-    baseURL: `/`
+    baseURL: `/`,
+    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
 })

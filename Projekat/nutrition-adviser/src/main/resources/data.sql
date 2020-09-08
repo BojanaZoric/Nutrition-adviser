@@ -6,16 +6,32 @@ INSERT INTO meal_type (id, meal_type) VALUES (2, "lunch");
 INSERT INTO meal_type (id, meal_type) VALUES (3, "dinner");
 INSERT INTO meal_type (id, meal_type) VALUES (4, "dessert");
 
-INSERT INTO allergen (id, name) VALUES (1, "milk");
-INSERT INTO allergen (id, name) VALUES (2, "egg");
-INSERT INTO allergen (id, name) VALUES (3, "gluten");
+INSERT INTO allergen (id, name) VALUES (1, "alcohol-free");
+INSERT INTO allergen (id, name) VALUES (2, "celery-free");
+INSERT INTO allergen (id, name) VALUES (3, "crustacean-free");
+INSERT INTO allergen (id, name) VALUES (4, "dairy-free");
+INSERT INTO allergen (id, name) VALUES (5, "egg-free");
+INSERT INTO allergen (id, name) VALUES (6, "fish-free");
+INSERT INTO allergen (id, name) VALUES (7, "fodmap-free");
+INSERT INTO allergen (id, name) VALUES (8, "gluten-free");
+INSERT INTO allergen (id, name) VALUES (9, "kosher");
+INSERT INTO allergen (id, name) VALUES (10, "lupine-free");
+INSERT INTO allergen (id, name) VALUES (11, "No-oil-added");
+INSERT INTO allergen (id, name) VALUES (12, "peanut-free");
+INSERT INTO allergen (id, name) VALUES (13, "pecatarian");
+INSERT INTO allergen (id, name) VALUES (14, "pork-free");
+INSERT INTO allergen (id, name) VALUES (15, "red-meat-free");
+INSERT INTO allergen (id, name) VALUES (16, "sesame-free");
+INSERT INTO allergen (id, name) VALUES (17, "shellfish-free");
+INSERT INTO allergen (id, name) VALUES (18, "soy-free");
 
-INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (1, "sugar", 500, 50, 20, true);
-INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (2, "milk", 200, 20, 10, true);
-INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (3, "spagetti", 300, 15, 20, false);
-INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (4, "salt", 250, 25, 30, true);
-INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (5, "chocolate", 150, 20, 5, true);
-INSERT INTO grocerie (id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES (6, "cheese", 150, 5, 40, true);
+
+INSERT INTO grocerie (measure, id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES ("kg", 1, "sugar", 500, 50, 20, true);
+INSERT INTO grocerie (measure, id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES ("l",2, "milk", 200, 20, 10, true);
+INSERT INTO grocerie (measure, id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES ("kg", 3, "spagetti", 300, 15, 20, false);
+INSERT INTO grocerie (measure, id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES ("gr",4, "salt", 250, 25, 30, true);
+INSERT INTO grocerie (measure, id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES ("gr",5, "chocolate", 150, 20, 5, true);
+INSERT INTO grocerie (measure, id, name, calories, protein_amount, carbohydrate_amount, gluten_free) VALUES ("gr",6, "cheese", 150, 5, 40, true);
 
 
 -- milk-milk

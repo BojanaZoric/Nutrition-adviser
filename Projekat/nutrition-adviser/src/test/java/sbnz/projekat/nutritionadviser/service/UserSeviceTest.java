@@ -37,7 +37,7 @@ public class UserSeviceTest {
 		Mockito.when(userRepositoryMock.findById(1l))
         .thenReturn(Optional.of(user));
 		UserDetailsDTO details = new UserDetailsDTO(185, 77, 1999, "MALE", null, false, false, false);
-		UserData saved = userService.save(details, 1L);
+		UserData saved = userService.save(details);
 		
 		assertEquals(saved.getBmi(), data.getWeight()/Math.pow(data.getHeight()/100, 2));
 	

@@ -43,7 +43,7 @@ rule "Find missing groceries from meal"
 end
 	
 query checkMealGroceriesAll(Set $allGroceries, List $usersGroceriesIDS)
-	 $num := Number(intValue == $usersGroceriesIDS.size()) from
+	 $num := Number(intValue == $usersGroceriesIDS.size() && intValue != 0 ) from
 		accumulate(GrocerieQuantity($id: grocerie.id, $id memberOf $usersGroceriesIDS) from $allGroceries,
 	 init(int count = 0;),
 	 action(count += 1;),

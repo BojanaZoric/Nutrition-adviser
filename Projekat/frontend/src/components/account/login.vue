@@ -1,7 +1,7 @@
 <template>
-    <div id="loginForm">
+    <div id="loginForm" class="mt-5 ml-5">
                 <input class="form-control" type="text" v-model="username" placeholder="Username" > <br />
-                <input class="form-control" type="password" v-model="password" placeholder="Password" >
+                <input class="form-control mb-5" type="password" v-model="password" placeholder="Password" >
             <button type="button" class="btn btn-primary" @click="signIn">Sign in</button>
 
     </div>
@@ -35,6 +35,7 @@ export default {
                     if (response.status == 200){
                         localStorage.setItem('token', response.data.accessToken);
                 console.log(response.data);
+                this.$router.push("/")
 
 }
                 })
@@ -46,6 +47,8 @@ export default {
                 })
         }
     }
+
+
 }
 </script>
 

@@ -1,6 +1,7 @@
 package sbnz.projekat.nutritionadviser.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ import sbnz.projekat.nutritionadviser.model.PossibleMeals;
 import sbnz.projekat.nutritionadviser.model.Step;
 import sbnz.projekat.nutritionadviser.model.User;
 import sbnz.projekat.nutritionadviser.model.UserData;
+import sbnz.projekat.nutritionadviser.model.exception.EntityNotExist;
 import sbnz.projekat.nutritionadviser.repository.GrocerieQuantityRepository;
 import sbnz.projekat.nutritionadviser.repository.GrocerieRepository;
 import sbnz.projekat.nutritionadviser.repository.MealRepository;
@@ -41,6 +43,8 @@ public class MealService {
 	private final GrocerieRepository grocerieRepository;
 	private final GrocerieQuantityRepository grocerieQuantityRepository;
 	private final KieContainer kieContainer;
+	private final KieSession kieSess;
+
 
 	@Autowired
 	public MealService(MealRepository mealRepository, UserRepository userRepository, GrocerieRepository grocerieRepository,
@@ -50,12 +54,23 @@ public class MealService {
 		this.userRepository = userRepository;
 		this.grocerieRepository = grocerieRepository;
 		this.grocerieQuantityRepository = grocerieQuantityRepository;
+		this.kieSess = kieContainer.newKieSession("session");
 	}
 
 	public List<Meal> getAll() {
 		return this.mealRepository.findAll();
 	}
 
+	public boolean eatingMeal(Long id) {
+		Date date = new Date(System.currentTimeMillis());
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getName();
+
+		User user = this.userRepository.findOneByUsername(username);
+		System.out.println(user.getUsername());
+		Meal m = this.getOne(id);
+		EatingMealEvent eme = new EatingMealEvent(date, user, m);
+		return this.addEatingMealEvent(eme);
+	}
 	public Meal getOne(Long id) {
 		Optional<Meal> meal = this.mealRepository.findById(id);
 		
@@ -110,7 +125,7 @@ public class MealService {
 		
 		String username = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = userRepository.findOneByUsername(username);
-		
+		System.out.println(username);
 		if(meal.isPresent() && username != null) {
 		
 			return this.userMealAllergie(user.getUserData(), meal.get());
@@ -127,7 +142,7 @@ public class MealService {
 		String username = (String) SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = userRepository.findOneByUsername(username);
 		
-		if(grocerie.isPresent() && username != null) {
+		if(grocerie.isPresent() && username != null) {	
 		
 			return this.userGrocerieAllergie(user.getUserData(), grocerie.get());
 		}
@@ -400,14 +415,14 @@ public class MealService {
 		return kieSession;
 	}
 	
-	public boolean addEatingMealEvent(KieSession kieSession , EatingMealEvent eme) {
+	public boolean addEatingMealEvent(EatingMealEvent eme) {
 
-		//KieSession kieSession = kieContainer.newKieSession("session");
 		MissingGroceries mg = new MissingGroceries();
-		kieSession.insert(eme);
-		kieSession.getAgenda().getAgendaGroup("allowed-to-eat").setFocus();
+		System.out.println(eme.getUser().getId());
+		this.kieSess.insert(eme);
+		this.kieSess.getAgenda().getAgendaGroup("allowed-to-eat").setFocus();
 
-		int numOfRules = kieSession.fireAllRules();
+		int numOfRules = this.kieSess.fireAllRules();
 		System.out.println("Broj aktiviranih pravila (addEatingMealEvent): " + numOfRules);
 	
 		/// Get Suspicious User Event
@@ -446,5 +461,55 @@ public class MealService {
 		kieSession.dispose();
 		
 		return meals;
+	}
+
+	public void delete(Long id) {
+		Meal grocerie = this.mealRepository.getOne(id);
+		
+		if (grocerie == null) {
+			throw new EntityNotExist("Meal with id [" + id + "] not found");
+		}
+		
+		this.mealRepository.deleteById(id);
+		
+	}
+	
+	public Meal update(MealDTO dto) {
+		System.out.println(dto.getId());
+				System.out.println("AAAAAA");
+		Meal m1 = this.mealRepository.getOne(dto.getId());
+		this.mealRepository.deleteById(dto.getId());
+		Meal m = new Meal();
+		m1.setId(dto.getId());
+		m.setName(dto.getName());
+		m.setCarbohydrateAmount(dto.getCarbohydrateAmount());
+		m.setCalories(dto.getCalories());
+		m.setDescription(dto.getDescription());
+		m.setInstructions(dto.getInstructions());
+		m.setPreparationTime(dto.getPreparationTime());
+		m.setProteinAmount(dto.getProteinAmount());
+	
+
+		for (GroceriesQuantityDTO gqDTO : dto.getGroceries()) {
+			Grocerie groc = grocerieRepository.getOne(gqDTO.getGrocerie_id());
+
+			GrocerieQuantity gq = new GrocerieQuantity(null, groc, gqDTO.getQuantity(), m);
+
+			m.getGroceries().add(gq);
+			//this.grocerieQuantityRepository.save(gq);
+		}
+		
+		for (StepDTO gqDTO : dto.getSteps()) {
+			Step s = new Step(null, gqDTO.getName(), gqDTO.getInstruction(), m);
+			
+			m.getSteps().add(s);
+			//this.grocerieQuantityRepository.save(gq);
+		}
+
+		this.calculateCalories(m);
+		
+		Meal saved = mealRepository.save(m);
+		
+		return saved;
 	}
 }
